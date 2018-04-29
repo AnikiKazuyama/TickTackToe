@@ -30,4 +30,18 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+// db.sequelize.sync({force: true})
+//   .then(() => {
+//     return db.user.create({
+//       name: 'Aniki', 
+//       email: 'uchia09@gmail.com',
+//       password: 'HUjaoc21'
+//     });
+//   })
+//   .then(() => {
+//     return db.room.create({
+//       name: 'Главная комната'
+//     });
+//   });
+
 module.exports = db;

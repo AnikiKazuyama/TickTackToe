@@ -1,8 +1,8 @@
 module.exports = {
-      username: 'root',
-      password: 'HUjaoc21',
-      database: 'tick-tack-toe',
-      host: 'localhost',
+      username: 'surton',
+      password: '3411b0a9',
+      database: 'ticktacktoe',
+      host: 'db4free.net',
       port: 3306,
       dialect: 'mysql',
       operatorsAliases: false
