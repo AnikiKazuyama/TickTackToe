@@ -10,11 +10,10 @@ router.get('/', ( req, res ) => {
 });
 
 router.post('/create', (req, res) => {
-    const body = req.body;
-
-    models.user.create(body)
-    .then(() => res.send('ok'))
-    .catch( e => res.status(400).send(e.message))   
+    models.user
+        .create({ name: req.body.name, email: req.body.email, password: req.body.password })
+        .then(() => res.send('ok'))
+        .catch( e => res.status(400).send(e.message))   
     
 })
 
