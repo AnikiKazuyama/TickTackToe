@@ -3,10 +3,13 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', ( req, res ) => {
-    models.user.findAll()
+    if (req.isAuthenticated())
+        models.user.findAll()
                .then(user => {
                    res.json(user);
                });
+    else
+        res.status(403).send('Непутю');
 });
 
 router.post('/create', (req, res) => {
