@@ -12,7 +12,7 @@ class Auth extends Component {
     render() {
 
         const { location } = this.props;
-        const isLoggedIn = true;  // Чтобы заработал роут /auth переключи на false
+        const isLoggedIn = false;  // Чтобы заработал роут /auth переключи на false
 
         return isLoggedIn
                ?
@@ -24,7 +24,6 @@ class Auth extends Component {
                         <Switch location={ location }>
                             <Route exact path="/auth" component={ LoginContainer } />
                             <Route path="/auth/registration" component={ RegistrationContainer } />
-                            
                         </Switch>
                     </div>
                 </CSSTransition>
