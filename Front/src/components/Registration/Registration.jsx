@@ -29,7 +29,7 @@ const Registration = () => {
                 </div>
                 <div className="buttons">
                     <a className="register default-button">Register</a>
-                    <Link to="/" className="cancel default-button">Cancel</Link>
+                    <Link to="/auth" className="cancel default-button">Cancel</Link>
                 </div>
             </form>
         </div>

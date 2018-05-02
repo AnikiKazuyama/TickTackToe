@@ -17,7 +17,7 @@ const Login = () => {
                 </div>
                 <div className="buttons">
                     <button type="submit" className="sign-in default-button">Sign in</button>
-                    <Link to="/registration" className="register default-button">Register</Link>
+                    <Link to="/auth/registration" className="register default-button">Register</Link>
                 </div>
                 <div className="additional">
                     <input className="default-checkbox" id="remember" type="checkbox" />

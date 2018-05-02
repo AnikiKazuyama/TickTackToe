@@ -18,8 +18,8 @@ class Auth extends Component {
                 <CSSTransition key={ location.key } classNames="fade" timeout={ 300 }>
                     <div className="wrapper">
                         <Switch location={ location }>
-                            <Route exact path="/" component={ LoginContainer } />
-                            <Route path="/registration" component={ RegistrationContainer } />
+                            <Route exact path="/auth" component={ LoginContainer } />
+                            <Route path="/auth/registration" component={ RegistrationContainer } />
                         </Switch>
                     </div>
                 </CSSTransition>
