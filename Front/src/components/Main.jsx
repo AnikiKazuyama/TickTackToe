@@ -1,4 +1,7 @@
 import React, { Component, Fragment } from 'react';
+import { Route } from "react-router-dom";
+
+import AuthContainer from '../containers/AuthContainer';
 
 class Main extends Component {
     
@@ -6,6 +9,7 @@ class Main extends Component {
         super(props);
 
         this.defaultMessage = props.message;
+
     }
 
     render() {
@@ -15,11 +19,7 @@ class Main extends Component {
         const responseMessage = message.length ? message : this.defaultMessage;
 
         return(
-            <Fragment>
-                <p>{ responseMessage }</p>
-                <input  type     = "text"
-                        onChange = { this.handleChange }/>
-            </Fragment>
+            <AuthContainer />
         );
     }
 
