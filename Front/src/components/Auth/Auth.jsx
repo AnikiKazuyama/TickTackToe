@@ -12,7 +12,7 @@ class Auth extends Component {
     render() {
 
         const { location } = this.props;
-        const isLoggedIn = true;
+        const isLoggedIn = true;  // Чтобы заработал роут /auth переключи на false
 
         return isLoggedIn
                ?
