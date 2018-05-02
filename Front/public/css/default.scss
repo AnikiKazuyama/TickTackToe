@@ -106,3 +106,9 @@ a:hover { text-decoration: underline; }
 .clearfix {
     *zoom: 1;
 }
+
+@media (max-width: 767px) {
+  body {
+    background: #7a67a8;
+  }
+}
