@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { Route, BrowserRouter as Router} from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
+import Favicon from 'react-favicon';
 
 import configureStore from './store';
 

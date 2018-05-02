@@ -12,7 +12,8 @@ body {
   min-width: 320px;
   min-height: 100%;
   font-family: "Lato";
-  background: url(../../public/images/bg.jpg);
+  background: url(../../public/images/bg.jpg) no-repeat;
+  background-size: cover;
   overflow-y: scroll;
   overflow-x: hidden;
   font-size: 62.5%; 
