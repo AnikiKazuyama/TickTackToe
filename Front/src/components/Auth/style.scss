@@ -28,7 +28,7 @@ $wrapper-width: 450px;
     color: #ffffff;
 }
   
-.wrapper input {
+.wrapper input:not([type='checkbox']) {
     width: 100%;
     height: $input-height;
     padding: 0 20px 0 $input-height + 15px;
@@ -84,6 +84,7 @@ $wrapper-width: 450px;
 
 .buttons,
 .additional {
+    position: relative;
     display: flex;
     justify-content: space-between;
 }
@@ -172,7 +173,7 @@ $wrapper-width: 450px;
 }
 
 @media (max-width: 499px) {
-    .wrapper input {
+    .wrapper input:not([type='checkbox']) {
         width: 100%;
         height: 40px;
         padding: 0 10px 0 60px;

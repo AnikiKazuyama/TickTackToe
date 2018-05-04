@@ -6,9 +6,10 @@ import Auth from '../components/Auth';
 class AuthContainer  extends Component {
     
     render() {
-        return(
+        return([
+            <label className="watermark">DEEPLEARNINGINMYASS PRODUCTION</label>,
             <Auth { ...this.props }/> 
-        );
+        ]);
     }
 }
 

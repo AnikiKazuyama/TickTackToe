@@ -22,6 +22,17 @@ body {
   min-width: 100%;
 }
 
+.watermark {
+  position: absolute;
+  bottom: 5px;
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 300;
+  opacity: .3;
+}
+
 body.scroll-off {
   overflow-y: hidden;
   padding-right: 17px;
