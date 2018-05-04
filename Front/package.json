@@ -22,7 +22,8 @@
     "react-transition-group": "^2.3.1",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
-    "redux-saga": "^0.16.0"
+    "redux-saga": "^0.16.0",
+    "validator": "^10.0.0"
   },
   "devDependencies": {
     "babel-loader": "^7.1.2",

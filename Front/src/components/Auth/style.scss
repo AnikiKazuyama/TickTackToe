@@ -3,24 +3,29 @@ $wrapper-width: 450px;
 
 .wrapper {
     position: absolute;
+    display: flex;
+    flex-direction: column;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    opacity: 1;
-}
-
-.wrapper {
-    display: flex;
-    flex-direction: column;
     padding: 30px 50px;
+    opacity: 1;
     width: $wrapper-width;
     background-color: #7a67a8;
     outline: 10px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
-  }
+}
   
 .wrapper form > *:not(:first-child) {
     margin-top: 15px;
+}
+
+.wrapper .title {
+    margin-bottom: 30px;
+    font-size: 18px;
+    font-weight: 300;
+    text-align: center;
+    color: #ffffff;
 }
   
 .wrapper input {
@@ -42,9 +47,12 @@ $wrapper-width: 450px;
     background: #6ca7ba url(../../../public/images/user.svg) center no-repeat;
 }
 
-.wrapper .password input + label, 
-.wrapper .confirm-password input + label {
+.wrapper .password input + label {
     background: #6ca7ba url(../../../public/images/lock.svg) center no-repeat;
+}
+
+.wrapper .confirm-password input + label {
+    background: #6ca7ba url(../../../public/images/padlock.svg) center no-repeat;
 }
 
 .wrapper .email input + label {
@@ -60,7 +68,7 @@ $wrapper-width: 450px;
     left: 0;
     width: $input-height;
     height: $input-height;
-    background-size: 70%;
+    background-size: 60%;
     cursor: pointer;
 }
 
@@ -80,6 +88,10 @@ $wrapper-width: 450px;
     justify-content: space-between;
 }
 
+.wrapper form .buttons-restore {
+    margin-top: 30px;
+}
+
 .additional_forgot-password {
     vertical-align: top;
     line-height: 20px;
@@ -95,21 +107,6 @@ $wrapper-width: 450px;
     text-decoration: none;
     border-bottom-color: #ffffff;
 }
-  
-@media (max-width: 767px) {
-    .wrapper {
-         justify-content: center;
-        background-color: transparent;
-        outline: none;
-        width: auto;
-        height: 100%;
-        padding: 30px 20px;
-    }
-    
-    .buttons {
-        flex-direction: column;
-    }
-  }
 
 .fade-enter {
     transform: translate(-50%, -50%) scale(0);
@@ -138,6 +135,21 @@ $wrapper-width: 450px;
     transition: opacity 300ms ease-in-out,
                 transform 300ms ease-in-out;
 }
+  
+@media (max-width: 767px) {
+    .wrapper {
+         justify-content: center;
+        background-color: transparent;
+        outline: none;
+        width: auto;
+        height: 100%;
+        padding: 30px 20px;
+    }
+    
+    .buttons {
+        flex-direction: column;
+    }
+  }
 
 @media (max-width: 767px) {
     .wrapper {
