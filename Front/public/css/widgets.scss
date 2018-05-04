@@ -12,6 +12,14 @@
   background-color: #74b3c7;
 }
 
+.default-button:disabled:hover {
+  background-color: #6ca7ba;
+}
+
+.default-button:disabled {
+  cursor: no-drop;
+}
+
 .default-button.sign-in,
 .default-button.register,
 .default-button.cancel {

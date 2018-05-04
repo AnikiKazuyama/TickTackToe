@@ -6,6 +6,7 @@ import "./style.scss";
 
 import LoginContainer from '../../containers/LoginContainer';
 import RegistrationContainer from '../../containers/RegistrationContainer';
+import RestoreContainer from '../../containers/RestoreContainer';
 
 class Auth extends Component {
 
@@ -24,6 +25,7 @@ class Auth extends Component {
                         <Switch location={ location }>
                             <Route exact path="/auth" component={ LoginContainer } />
                             <Route path="/auth/registration" component={ RegistrationContainer } />
+                            <Route path="/auth/restore" component={ RestoreContainer } />
                         </Switch>
                     </div>
                 </CSSTransition>

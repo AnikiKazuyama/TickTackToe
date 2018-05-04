@@ -135,6 +135,8 @@ $wrapper-width: 450px;
 .fade-exit.fade-exit-active {
     -webkit-transition: opacity 300ms ease-in-out,
                         transform 300ms ease-in-out;
+    transition: opacity 300ms ease-in-out,
+                transform 300ms ease-in-out;
 }
 
 @media (max-width: 767px) {

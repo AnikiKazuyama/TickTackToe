@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 import FormValidator from '../utils/FormValidator';
 
-import Login from '../components/Login';
+import Restore from '../components/Restore';
 
-class LoginContainer extends Component {
+class RestoreContainer extends Component {
 
     constructor() {
         super();
@@ -21,26 +21,11 @@ class LoginContainer extends Component {
                 method: 'isEmail', 
                 validWhen: true, 
                 message: 'That is not a valid email.'
-            }, 
-            { 
-                field: 'password',
-                method: 'isEmpty', 
-                validWhen: false, 
-                message: 'Password is required.'
-            }, 
-            {
-                field: 'password',
-                method: 'isLength',
-                args: [{ min: 3, max: undefined }],
-                validWhen: true, 
-                message: 'Password need to be more then 3 characters.'
             }
         ]);
 
         this.state = {
-            checkbox: '',
             email: '', 
-            password: '', 
             validation: this.validator.valid()
         };
 
@@ -51,9 +36,12 @@ class LoginContainer extends Component {
 
         let validation = this.validator.validate(this.state) ;   // then check validity every time we render
 
-        let isButtonDisabled = validation.email.isInvalid || validation.password.isInvalid;
+        let isButtonDisabled = validation.email.isInvalid;
 
-        return <Login isButtonDisabled = { isButtonDisabled } onSubmit = { this.handleFormSubmit } handleChange = { this.handleInputChange } { ...this.props } />;
+        return <Restore isButtonDisabled = { isButtonDisabled } 
+                        onSubmit         = { this.handleFormSubmit } 
+                        handleChange     = { this.handleInputChange } 
+                                           { ...this.props } />;
     }
 
     handleInputChange = (event) => {
@@ -82,4 +70,4 @@ class LoginContainer extends Component {
 
 }
 
-export default LoginContainer;
+export default RestoreContainer;
