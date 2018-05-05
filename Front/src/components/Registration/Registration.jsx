@@ -3,23 +3,32 @@ import { Link } from "react-router-dom";
 
 const Registration = (props) => {
 
-    const { handleChange, onSubmit, isButtonDisabled } = props;
+    const errorString = " error";
+    const okString = " ok";
+
+    const { handleChange, onSubmit, validation, isFirstExecution } = props;
+
+    let isButtonDisabled = validation.email.isInvalid || 
+                           validation.password.isInvalid || 
+                           validation.password_confirmation.isInvalid || 
+                           validation.username.isInvalid ||
+                           validation.checkbox.isInvalid;
 
     return (
         <form onSubmit={ onSubmit }>
-            <div className="username">
+            <div className={ "field" + (isFirstExecution.username ? "" : validation.username.isInvalid ? errorString : okString) } >
                 <input name="username" id="reg-username" type="text" placeholder="Username" onChange={ handleChange } required />
                 <label htmlFor="reg-username"></label>
             </div>
-            <div className="email">
+            <div className={ "field" + (isFirstExecution.email ? "" : validation.email.isInvalid ? errorString : okString) } >
                 <input name="email" id="reg-email" type="email" placeholder="E-mail" onChange={ handleChange } required />
                 <label htmlFor="reg-email"></label>
             </div>
-            <div className="password">
+            <div className={ "field" + (isFirstExecution.password ? "" : validation.password.isInvalid ? errorString : okString) } >
                 <input name="password" id="reg-password" type="password" placeholder="Password" onChange={ handleChange } required />
                 <label htmlFor="reg-password"></label>
             </div>
-            <div className="confirm-password">
+            <div className={ "field" + (isFirstExecution.password_confirmation ? "" : validation.password_confirmation.isInvalid ? errorString : okString) } >
                 <input name="password_confirmation" id="reg-confirm-password" type="password" placeholder="Confirm password" onChange={ handleChange } required />
                 <label htmlFor="reg-confirm-password"></label>
             </div>
@@ -28,7 +37,7 @@ const Registration = (props) => {
                 <label htmlFor="reg-confirm" required>I agree to the terms of service</label>
             </div>
             <div className="buttons">
-                <button className="register default-button" disabled={ isButtonDisabled }>Register</button>
+                <button className="register default-button" disabled={ isButtonDisabled } >Register</button>
                 <Link to="/auth" className="cancel default-button">Cancel</Link>
             </div>
         </form>

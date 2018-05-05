@@ -1,4 +1,4 @@
-import React, { Component }from 'react';
+import React, { Fragment, Component }from 'react';
 import { connect } from 'react-redux';
 
 import Auth from '../components/Auth';
@@ -6,10 +6,12 @@ import Auth from '../components/Auth';
 class AuthContainer  extends Component {
     
     render() {
-        return([
-            <label className="watermark">DEEPLEARNINGINMYASS PRODUCTION</label>,
-            <Auth { ...this.props }/> 
-        ]);
+        return(
+            <Fragment>
+                <label className="watermark">DEEPLEARNINGINMYASS PRODUCTION</label>
+                <Auth { ...this.props }/> 
+            </Fragment>
+        );
     }
 }
 

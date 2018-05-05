@@ -8,7 +8,7 @@ const Restore = (props) => {
     return (
         <form onSubmit = { onSubmit } action="" method="post">
             <h3 className="title">To recover your password, please enter your email which you gave during registration</h3>
-            <div className="email">
+            <div className="field">
                 <input name="email" id="restore-email" type="text" placeholder="E-mail" onChange = { handleChange } required />
                 <label htmlFor="restore-email"></label>
             </div>

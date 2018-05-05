@@ -7,11 +7,11 @@ const Login = (props) => {
 
     return (
         <form onSubmit = { onSubmit } action="" method="post">
-            <div className="email">
+            <div className="field">
                 <input name="email" id="login-email" type="text" placeholder="E-mail" onChange = { handleChange } required />
                 <label htmlFor="login-email"></label>
             </div>
-            <div className="password">
+            <div className="field">
                 <input name="password" id="login-password" type="password" placeholder="Password" onChange = { handleChange } required />
                 <label htmlFor="login-password"></label>
             </div>

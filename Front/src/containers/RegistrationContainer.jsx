@@ -44,15 +44,21 @@ class RegistrationContainer extends Component {
             {
                 field: 'password',
                 method: 'isLength',
-                args: [{ min: 3, max: undefined }],
+                args: [{ min: 6, max: undefined }],
                 validWhen: true, 
-                message: 'Password need to be more then 3 characters.'
+                message: 'Password need to be more then 6 characters.'
             },
             {
                 field: 'password_confirmation',
                 method: this.passwordMatch,
                 validWhen: true, 
                 message: 'Password need to be same.'
+            },
+            {
+                field: 'password_confirmation',
+                method: 'isLength',
+                args: [{ min: 6, max: undefined }], 
+                message: 'Password need to be.'
             }
         ]);
 
@@ -61,24 +67,24 @@ class RegistrationContainer extends Component {
             username: '',
             email: '', 
             password: '', 
-            password_confirmation: '', 
-            validation: this.validator.valid()
+            password_confirmation: ''
         };
+
+        this.isFirstExecution = {
+            checkbox: true,
+            username: true,
+            email: true, 
+            password: true, 
+            password_confirmation: true
+        }
 
         this.submitted = false;
     }
 
     render() {
-        let validation = this.validator.validate(this.state) ;   // then check validity every time we render
-
-        let isButtonDisabled = validation.email.isInvalid || 
-                               validation.password.isInvalid || 
-                               validation.password_confirmation.isInvalid || 
-                               validation.username.isInvalid ||
-                               validation.checkbox.isInvalid;
-
         return <Registration 
-                    isButtonDisabled = { isButtonDisabled } 
+                    isFirstExecution = { this.isFirstExecution }
+                    validation       = { this.validator.validate(this.state) } 
                     onSubmit         = { this.handleFormSubmit } 
                     handleChange     = { this.handleInputChange } 
                                        { ...this.props } 
@@ -88,8 +94,10 @@ class RegistrationContainer extends Component {
     handleInputChange = (event) => {
         if ('checkbox' === event.target.type)
             this.setState({ [event.target.name]: event.target.checked });
-        else 
+        else
             this.setState({ [event.target.name]: event.target.value });
+
+        this.isFirstExecution[event.target.name] = false;
     }
 
     handleFormSubmit = async event => {

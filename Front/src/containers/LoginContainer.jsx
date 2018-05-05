@@ -31,9 +31,9 @@ class LoginContainer extends Component {
             {
                 field: 'password',
                 method: 'isLength',
-                args: [{ min: 3, max: undefined }],
+                args: [{ min: 6, max: undefined }],
                 validWhen: true, 
-                message: 'Password need to be more then 3 characters.'
+                message: 'Password need to be more then 6 characters.'
             }
         ]);
 
@@ -53,7 +53,11 @@ class LoginContainer extends Component {
 
         let isButtonDisabled = validation.email.isInvalid || validation.password.isInvalid;
 
-        return <Login isButtonDisabled = { isButtonDisabled } onSubmit = { this.handleFormSubmit } handleChange = { this.handleInputChange } { ...this.props } />;
+        return <Login isButtonDisabled = { isButtonDisabled } 
+                      onSubmit = { this.handleFormSubmit } 
+                      handleChange = { this.handleInputChange } 
+                                     { ...this.props } 
+                />;
     }
 
     handleInputChange = (event) => {
