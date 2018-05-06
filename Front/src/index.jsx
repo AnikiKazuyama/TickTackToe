@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import { Provider } from 'react-redux';
-import { Route, BrowserRouter as Router} from 'react-router-dom';
+import { Route, BrowserRouter as Router, withRouter} from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import Favicon from 'react-favicon';
@@ -22,4 +22,4 @@ const render = (Component) => {
         document.getElementById('root'));
 }
 
-render(RootContainer);
+render(withRouter(RootContainer));

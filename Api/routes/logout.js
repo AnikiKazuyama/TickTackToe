@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
     req.logout();
-    res.send('Logged out');
+    res.clearCookie('connect.sid', {path: '/'}).json({status: "Success"});
 });
 
 module.exports = router;

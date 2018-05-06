@@ -4,6 +4,8 @@ import FormValidator from '../utils/FormValidator';
 
 import Restore from '../components/Restore';
 
+
+
 class RestoreContainer extends Component {
 
     constructor() {
@@ -61,8 +63,7 @@ class RestoreContainer extends Component {
         this.submitted = true;
 
         if(validation.isValid){
-            alert('Субмит');
-            //Вызов апи
+            
         } 
 
     }

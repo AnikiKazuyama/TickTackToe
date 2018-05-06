@@ -18,9 +18,9 @@ router.post('/', (req, res, next) => {
                 ? req.logIn(user, function(err){
                     return err
                     ? console.log(err.message)
-                    : res.status(200).send('ok');
+                    : res.status(200).json({status: "Success"});
                 })
-                : res.status(400).send('Wrong email or password');
+                : res.status(400).json({status: "Error"});
         }
     )(req, res, next);
 

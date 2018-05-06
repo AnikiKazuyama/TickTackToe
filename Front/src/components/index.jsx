@@ -2,17 +2,21 @@ import React, { Fragment } from 'react';
 import { Route, Switch, Link, Redirect } from "react-router-dom";
 
 import AuthContainer from '../containers/AuthContainer';
+import User from './User';
+
+import ApiService from '../utils/ApiService';
 
 import "../../public/css/widgets.scss";
 import "../../public/css/default.scss";
 
-export default class Root extends React.Component{
-    render(){
+export default class Root extends React.Component {
+    
+    render() {
         return(
             <Switch>
                 <Route path = '/auth' component = { AuthContainer }/>
-                <Route path = '/user' render = {() => {return <div>user</div>} } />
-                <Redirect from = '/' to ='/auth' />
+                <Route path = '/user' component = { User } />
+                <Redirect exact from = '/' to = '/auth'/>
             </Switch>
         );
     }

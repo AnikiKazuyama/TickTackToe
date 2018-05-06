@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 
+import Login from '../components/Login';
+
 import FormValidator from '../utils/FormValidator';
 
-import Login from '../components/Login';
+import ApiService from '../utils/ApiService';
+
+
 
 class LoginContainer extends Component {
 
@@ -71,19 +75,25 @@ class LoginContainer extends Component {
 
         event.preventDefault();
 
-
         const validation = this.validator.validate(this.state);
         this.setState({ validation });
         this.submitted = true;
 
-        if(validation.isValid){
-            alert('Субмит');
-            //Вызов апи
+        if (validation.isValid) {
+            const data = {
+                email: this.state.email, 
+                password: this.state.password
+            };
+
+            const response = await ApiService.loginRequest(data);
+
+            if (response.status === 'Success') {
+                window.localStorage.setItem('isAuthenticated', 'true');
+                this.props.history.push('/');
+            }
         } 
 
     }
-
-
 }
 
 export default LoginContainer;

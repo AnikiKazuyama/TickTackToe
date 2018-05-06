@@ -12,11 +12,18 @@ router.get('/', ( req, res ) => {
         res.status(403).send('Непутю');
 });
 
+router.get('/getCurrent', ( req, res ) => {
+    if (req.isAuthenticated())
+        res.json(req.user);
+    else
+        res.status(403).json({status: "Error"});
+});
+
 router.post('/create', (req, res) => {
     models.user
         .create({ name: req.body.name, email: req.body.email, password: req.body.password })
-        .then(() => res.send('ok'))
-        .catch( e => res.status(400).send(e.message))   
+        .then(() => res.json({status: "Success"}))
+        .catch( e => res.status(400).json({status: "Error"}))   
     
 })
 

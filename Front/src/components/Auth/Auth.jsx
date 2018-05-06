@@ -25,7 +25,8 @@ class Auth extends Component {
                         <Switch location={ location }>
                             <Route exact path="/auth" component={ LoginContainer } />
                             <Route path="/auth/registration" component={ RegistrationContainer } />
-                            <Route path="/auth/restore" component={ RestoreContainer } />
+                            <Route path="/auth/restore" component={ RestoreContainer } /> 
+                            <Route render = { () => <div>404</div> }/>
                         </Switch>
                     </div>
                 </CSSTransition>

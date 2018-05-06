@@ -4,6 +4,8 @@ import FormValidator from '../utils/FormValidator';
 
 import Registration from '../components/Registration';
 
+import ApiService from '../utils/ApiService';
+
 class RegistrationContainer extends Component {
 
     constructor() {
@@ -57,6 +59,7 @@ class RegistrationContainer extends Component {
             {
                 field: 'password_confirmation',
                 method: 'isLength',
+                validWhen: true, 
                 args: [{ min: 6, max: undefined }], 
                 message: 'Password need to be.'
             }
@@ -107,9 +110,25 @@ class RegistrationContainer extends Component {
         this.setState({ validation });
         this.submitted = true;
 
-        if(validation.isValid){
-            alert('Субмит');
-            //Вызов апи
+        if (validation.isValid) {
+            const data = {
+                name: this.state.username, 
+                email: this.state.email, 
+                password: this.state.password
+            };
+
+            const response = await ApiService.registrationRequest(data);
+
+            if (response.status === 'Success') {
+                ApiService.loginRequest(
+                    {email: this.state.email, password: this.state.password}
+                ).then((response) => {
+                    if (response.status === 'Success'){
+                        window.localStorage.setItem('isAuthenticated', 'true');
+                        this.props.history.push('/');
+                    }
+                })
+            }
         } 
 
     }
