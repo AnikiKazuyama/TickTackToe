@@ -123,10 +123,8 @@ class RegistrationContainer extends Component {
                 ApiService.loginRequest(
                     {email: this.state.email, password: this.state.password}
                 ).then((response) => {
-                    if (response.status === 'Success'){
-                        window.localStorage.setItem('isAuthenticated', 'true');
-                        this.props.history.push('/');
-                    }
+                    if (response.status === 'Success')
+                        this.props.history.push('/user');
                 })
             }
         } 

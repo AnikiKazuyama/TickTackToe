@@ -10,16 +10,36 @@ import ApiService from '../utils/ApiService';
 
 class AuthContainer  extends Component {
 
+    constructor() {
+        super();
+
+        this.state = {
+            isLoggedIn: null
+        }
+    }
+
+    componentDidMount() {
+        ApiService.isAuth().then((response) => {
+            this.setState({isLoggedIn: response.status === 'Success'});
+        }).catch((e) => {
+            if (e.response.data.status === 'Error')
+                this.setState({isLoggedIn: false});
+        });
+    }
+
     render() {
-        if (window.localStorage.getItem('isAuthenticated'))
+        if (this.state.isLoggedIn)
             return <Redirect to="/user"/>
         else 
-            return(
-                <Fragment>
-                    <label className="watermark">DEEPLEARNINGINMYASS PRODUCTION</label>
-                    <Auth { ...this.props }/> 
-                </Fragment>
-            );
+            if (this.state.isLoggedIn == null)
+                return null;
+            else 
+                return(
+                    <Fragment>
+                        <label className="watermark">DEEPLEARNINGINMYASS PRODUCTION</label>
+                        <Auth { ...this.props }/> 
+                    </Fragment>
+                );
     }
 }
 

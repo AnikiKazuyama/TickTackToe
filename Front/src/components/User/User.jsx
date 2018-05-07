@@ -18,10 +18,8 @@ class User extends Component {
                 user
             });
         }).catch((e) => {
-            if (e.response.data.status === 'Error') {
-                window.localStorage.removeItem('isAuthenticated');
+            if (e.response.data.status === 'Error')
                 this.props.history.push('/');
-            }
         });
     }
     render() {
@@ -29,10 +27,17 @@ class User extends Component {
         return this.state.user 
         ?
         <div>
-            <p>{this.state.user.email}</p>
+            <h1>{this.state.user.email}</h1>
+            <button onClick={ this.click }>Выйти</button>
         </div>
         :
         <div>Грузимся блять</div>
+    }
+
+    click = async () => {
+        ApiServices.logoutRequest().then((response) => {
+            this.props.history.push('/auth');
+        })
     }
 }
 

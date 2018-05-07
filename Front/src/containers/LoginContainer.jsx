@@ -87,10 +87,8 @@ class LoginContainer extends Component {
 
             const response = await ApiService.loginRequest(data);
 
-            if (response.status === 'Success') {
-                window.localStorage.setItem('isAuthenticated', 'true');
-                this.props.history.push('/');
-            }
+            if (response.status === 'Success')
+                this.props.history.push('/user');
         } 
 
     }
