@@ -49,6 +49,9 @@ class ApiService {
         return await this.makeRequest('GET', 'users/getCurrent')
     }
 
+    roomConnect = async () => {
+        return await this.makeRequest('GET', 'rooms/connect');
+    }
 
 }
 

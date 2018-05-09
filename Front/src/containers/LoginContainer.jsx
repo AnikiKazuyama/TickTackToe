@@ -6,7 +6,7 @@ import FormValidator from '../utils/FormValidator';
 
 import ApiService from '../utils/ApiService';
 
-
+import io from 'socket.io-client';
 
 class LoginContainer extends Component {
 
@@ -87,8 +87,11 @@ class LoginContainer extends Component {
 
             const response = await ApiService.loginRequest(data);
 
-            if (response.status === 'Success')
-                this.props.history.push('/user');
+            if (response.status === 'Success'){
+                console.log("123");
+                io.connect('http://localhost:3000').emit('isAuthServer');
+            }
+                
         } 
 
     }
