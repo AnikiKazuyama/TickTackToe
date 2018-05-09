@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Login from '../components/Login';
+import Room from '../components/Room';
 
 import FormValidator from '../utils/FormValidator';
 
@@ -8,7 +8,7 @@ import ApiService from '../utils/ApiService';
 
 
 
-class LoginContainer extends Component {
+class RoomContainer extends Component {
 
     constructor() {
         super();
@@ -57,7 +57,7 @@ class LoginContainer extends Component {
 
         let isButtonDisabled = validation.email.isInvalid || validation.password.isInvalid;
 
-        return <Login isButtonDisabled = { isButtonDisabled } 
+        return <Room isButtonDisabled = { isButtonDisabled } 
                       onSubmit = { this.handleFormSubmit } 
                       handleChange = { this.handleInputChange } 
                                      { ...this.props } 
@@ -88,10 +88,10 @@ class LoginContainer extends Component {
             const response = await ApiService.loginRequest(data);
 
             if (response.status === 'Success')
-                ApiService.roomConnect().then(() => this.props.history.push('/room'));
+                this.props.history.push('/room');
         } 
 
     }
 }
 
-export default LoginContainer;
+export default RoomContainer;

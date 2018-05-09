@@ -22,6 +22,7 @@ class User extends Component {
                 this.props.history.push('/');
         });
     }
+    
     render() {
 
         return this.state.user 
