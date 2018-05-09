@@ -56,6 +56,10 @@ class ApiService {
     leaveRoom = async () => {
         return await this.makeRequest('GET', 'api/rooms/leave');
     }
+    
+    getRoomState = async () => {
+        return await this.makeRequest('GET', 'api/rooms/state');
+    }
 
 }
 

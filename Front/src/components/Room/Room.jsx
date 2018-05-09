@@ -11,9 +11,7 @@ class Room extends Component {
         ?
         <div>
             <h1>Игроки:</h1>
-            {room.players.map(player => 
-            <div key={player.id} >{ player.name }</div>
-            )}
+            {room.players.map(player => <div key={player.id} >{ player.name }</div> )}
             <button onClick={ this.props.onClickLeave }>Выйти из комнаты</button>
         </div>
         :

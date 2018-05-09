@@ -17,12 +17,24 @@ const app = express();
 
 const http = require('http').Server(app)
 const io = require('socket.io')(http);
+const LevelStore = require('level-session-store')(session);
+const passportSocketIo = require('passport.socketio');
+
+const store = new LevelStore()
+
+io.use(passportSocketIo.authorize({
+  secret: 'SECRET',
+  store: store,
+  passport: passport,
+  cookieParser: cookieParser
+}));
 
 app.use(cors({credentials: true, origin: 'http://localhost:8080'}));
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(session({ 
     secret: 'SECRET',
+    store: store,
     cookie: {
         maxAge: 365 * 24 * 60 * 60 * 1000,
         HttpOnly: false,

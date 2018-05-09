@@ -42,8 +42,8 @@ class RoomContainer extends Component {
 
     leave = async () => {
         ApiService.leaveRoom().then(() => {
-            this.socket.emit('leaveServer');
             this.props.history.push('/user');
+            this.socket.emit('leaveServer');
         } );
     }
 }

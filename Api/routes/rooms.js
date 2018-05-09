@@ -12,7 +12,6 @@ module.exports = (function(io) {
         if(req.isAuthenticated()) {
             const user = new User(req.user.id, req.user.name);
             res.json({status: room.enter(user) ? "Success" : "Error"});
-            io.sockets.emit('enterServer');
         } else 
             res.status(403).json({status: "Error"});
     });
@@ -21,20 +20,15 @@ module.exports = (function(io) {
         if(req.isAuthenticated()) {
             const user = new User(req.user.id, req.user.name);
             res.json({status: room.leave(user) ? "Success" : "Error"});
-            io.sockets.emit('leaveServer');
         } else 
             res.status(403).json({status: "Error"});
     });
     
-    router.get('/getState', (req, res) => {
-        if(req.isAuthenticated()) {
-            const user = new User(req.user.id, req.user.name);
-            res.json({
-                status: "Success",
-                room: room
-            })
-        } else 
-            res.status(403).json({status: "Error"});
+    router.get('/state', (req, res) => {
+        res.json({
+            status: "Success",
+            room: room
+        })
     });
     
     router.get('/', ( req, res ) => {
@@ -46,15 +40,16 @@ module.exports = (function(io) {
 
     io.on('connection', socket => {
         socket.on('enterServer', () => {
-          io.sockets.emit('enterClient', room)
+            console.log(socket.request.isAuthenticated());
+            io.sockets.emit('enterClient', room);
         })
     
         socket.on('leaveServer', () => {
-            io.sockets.emit('leaveClient', room)
-          })
+            io.sockets.emit('leaveClient', room);
+        })
     
         socket.on('disconnect', () => {
-          console.log('user disconnected')
+            console.log('user disconnected');
         })
       });
 

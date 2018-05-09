@@ -3,20 +3,23 @@ import { Link } from "react-router-dom";
 
 const Login = (props) => {
 
-    const { handleChange, onSubmit, isButtonDisabled } = props;
+    const errorString = " error";
+    const loadingString = " loading";
+
+    const { handleChange, onSubmit, isButtonDisabled, isError, isLoading } = props;
 
     return (
         <form onSubmit = { onSubmit } action="" method="post">
-            <div className="field">
+            <div className={ "field" + (isError ? errorString : "") }>
                 <input name="email" id="login-email" type="text" placeholder="E-mail" onChange = { handleChange } required />
                 <label htmlFor="login-email"></label>
             </div>
-            <div className="field">
+            <div className={ "field" + (isError ? errorString : "") }>
                 <input name="password" id="login-password" type="password" placeholder="Password" onChange = { handleChange } required />
                 <label htmlFor="login-password"></label>
             </div>
             <div className="buttons">
-                <button type="submit" className="sign-in default-button" disabled = {isButtonDisabled}>Sign in</button>
+                <button type="submit" className={"sign-in default-button" + (isLoading ? loadingString : "") } disabled = {isButtonDisabled}>Sign in</button>
                 <Link to="/auth/registration" className="register default-button">Register</Link>
             </div>
             <div className="additional">

@@ -45,7 +45,9 @@ class LoginContainer extends Component {
             checkbox: '',
             email: '', 
             password: '', 
-            validation: this.validator.valid()
+            validation: this.validator.valid(),
+            isError: false,
+            isLoading: false
         };
 
         this.submitted = false;
@@ -57,7 +59,9 @@ class LoginContainer extends Component {
 
         let isButtonDisabled = validation.email.isInvalid || validation.password.isInvalid;
 
-        return <Login isButtonDisabled = { isButtonDisabled } 
+        return <Login isLoading = { this.state.isLoading }
+                      isError = { this.state.isError }
+                      isButtonDisabled = { isButtonDisabled } 
                       onSubmit = { this.handleFormSubmit } 
                       handleChange = { this.handleInputChange } 
                                      { ...this.props } 
@@ -76,7 +80,7 @@ class LoginContainer extends Component {
         event.preventDefault();
 
         const validation = this.validator.validate(this.state);
-        this.setState({ validation });
+        this.setState({ validation, isLoading: true });
         this.submitted = true;
 
         if (validation.isValid) {
@@ -85,10 +89,14 @@ class LoginContainer extends Component {
                 password: this.state.password
             };
 
-            const response = await ApiService.loginRequest(data);
+            ApiService.loginRequest(data).then((response) => {
+                if (response.status === 'Success')
+                    this.props.history.push('/user');
+                else if (response.status === 'Error')
+                    this.setState({ isError: true });
 
-            if (response.status === 'Success')
-                this.props.history.push('/user');
+                this.setState({ isLoading: false });
+            });
         } 
 
     }
