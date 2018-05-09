@@ -3,21 +3,39 @@ class Room {
         this.players = [];        
     }
 
-    connect(user) {
-        if (this.players.length < 2) {
-            if (this.players.length == 1 && this.players[0].name == user.name)
-                return false;
+    enter(user) {
+        if (this.isExist(user) != -1) {
+            console.log('Уже существует, пропускаем')
+            return true;
+        }
 
+        if (this.players.length < 2) 
                 this.addPlayer(user);
-        } else 
+        else 
             return false;
 
         return true;
 
     }
 
+    leave(user) {
+        if (this.isExist(user) != -1) {
+            this.players.splice(this.isExist(user), 1);
+            return true;
+        }
+        return false;
+    }
+
     addPlayer(user) {
         this.players.push(user);
+    }
+
+    isExist(user) {
+        for (let i = 0; i < this.players.length; i++) {
+            if (+this.players[i].id == +user.id)
+                return i;
+        }
+        return -1;
     }
 
 }

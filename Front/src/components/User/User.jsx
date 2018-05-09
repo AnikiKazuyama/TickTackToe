@@ -29,15 +29,23 @@ class User extends Component {
         ?
         <div>
             <h1>{this.state.user.email}</h1>
-            <button onClick={ this.click }>Выйти</button>
+            <button onClick={ this.exit }>Выйти</button>
+            <button onClick={ this.enter }>Войти в комнату</button>
         </div>
         :
         <div>Грузимся блять</div>
     }
 
-    click = async () => {
+    exit = async () => {
         ApiServices.logoutRequest().then((response) => {
             this.props.history.push('/auth');
+        })
+    }
+
+    enter = async () => {
+        ApiServices.enterRoom().then((response) => {
+            if (response.status === 'Success')
+                this.props.history.push('/room');
         })
     }
 }

@@ -6,6 +6,8 @@ import FormValidator from '../utils/FormValidator';
 
 import ApiService from '../utils/ApiService';
 
+import io from 'socket.io-client';
+
 
 
 class RoomContainer extends Component {
@@ -13,84 +15,36 @@ class RoomContainer extends Component {
     constructor() {
         super();
 
-        this.validator = new FormValidator([
-            { 
-                field: 'email', 
-                method: 'isEmpty', 
-                validWhen: false, 
-                message: 'Email is required.' 
-            },
-            { 
-                field: 'email',
-                method: 'isEmail', 
-                validWhen: true, 
-                message: 'That is not a valid email.'
-            }, 
-            { 
-                field: 'password',
-                method: 'isEmpty', 
-                validWhen: false, 
-                message: 'Password is required.'
-            }, 
-            {
-                field: 'password',
-                method: 'isLength',
-                args: [{ min: 6, max: undefined }],
-                validWhen: true, 
-                message: 'Password need to be more then 6 characters.'
-            }
-        ]);
+        this.socket = io.connect('http://localhost:3000');
 
         this.state = {
-            checkbox: '',
-            email: '', 
-            password: '', 
-            validation: this.validator.valid()
-        };
+            room: null
+        }
+    }
 
-        this.submitted = false;
+    componentDidMount() {
+        this.socket.on('enterClient', (room) => {
+            this.setState({ room });
+        });
+
+        this.socket.on('leaveClient', (room) => {
+            this.setState({ room });
+        });
+
+        this.socket.emit('enterServer');
     }
 
     render() {
-
-        let validation = this.validator.validate(this.state) ;   // then check validity every time we render
-
-        let isButtonDisabled = validation.email.isInvalid || validation.password.isInvalid;
-
-        return <Room isButtonDisabled = { isButtonDisabled } 
-                      onSubmit = { this.handleFormSubmit } 
-                      handleChange = { this.handleInputChange } 
-                                     { ...this.props } 
-                />;
+        return <Room    onClickLeave = { this.leave }
+                        room = { this.state.room }
+                            { ...this.props } />;
     }
 
-    handleInputChange = (event) => {
-        if ('checkbox' === event.target.type)
-            this.setState({ [event.target.name]: event.target.checked });
-        else 
-            this.setState({ [event.target.name]: event.target.value });
-    }
-
-    handleFormSubmit = async event => {
-
-        event.preventDefault();
-
-        const validation = this.validator.validate(this.state);
-        this.setState({ validation });
-        this.submitted = true;
-
-        if (validation.isValid) {
-            const data = {
-                email: this.state.email, 
-                password: this.state.password
-            };
-
-            const response = await ApiService.loginRequest(data);
-
-            if (response.status === 'Success')
-                this.props.history.push('/room');
-        } 
-
+    leave = async () => {
+        ApiService.leaveRoom().then(() => {
+            this.socket.emit('leaveServer');
+            this.props.history.push('/user');
+        } );
     }
 }
 

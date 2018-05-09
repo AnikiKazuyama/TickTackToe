@@ -88,7 +88,7 @@ class LoginContainer extends Component {
             const response = await ApiService.loginRequest(data);
 
             if (response.status === 'Success')
-                ApiService.roomConnect().then(() => this.props.history.push('/room'));
+                this.props.history.push('/user');
         } 
 
     }

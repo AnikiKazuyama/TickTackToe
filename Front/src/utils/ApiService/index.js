@@ -49,12 +49,12 @@ class ApiService {
         return await this.makeRequest('GET', 'api/users/getCurrent')
     }
 
-    roomConnect = async () => {
-        return await this.makeRequest('GET', 'api/rooms/connect');
+    enterRoom = async () => {
+        return await this.makeRequest('GET', 'api/rooms/enter');
     }
 
-    getRoomState = async () => {
-        return await this.makeRequest('GET', 'api/rooms/getState');
+    leaveRoom = async () => {
+        return await this.makeRequest('GET', 'api/rooms/leave');
     }
 
 }
