@@ -41,6 +41,7 @@
   background-size: 35px;
   background-position: center;
   color: transparent;
+  transition: background-image .2s, color .2s;
 }
 
 .default-button.cancel:hover {

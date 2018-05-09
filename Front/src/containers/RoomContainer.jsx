@@ -44,6 +44,7 @@ class RoomContainer extends Component {
         ApiService.leaveRoom().then(() => {
             this.props.history.push('/user');
             this.socket.emit('leaveServer');
+            this.socket.disconnect();
         } );
     }
 }

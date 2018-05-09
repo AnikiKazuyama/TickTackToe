@@ -90,12 +90,11 @@ class LoginContainer extends Component {
             };
 
             ApiService.loginRequest(data).then((response) => {
+                this.setState({ isLoading: false });
                 if (response.status === 'Success')
                     this.props.history.push('/user');
                 else if (response.status === 'Error')
                     this.setState({ isError: true });
-
-                this.setState({ isLoading: false });
             });
         } 
 
