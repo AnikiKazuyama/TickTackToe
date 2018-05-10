@@ -17,11 +17,11 @@ const app = express();
 
 const http = require('http').Server(app)
 const io = require('socket.io')(http);
-const LevelStore = require('level-session-store')(session);
+const MemoryStore = require('memorystore')(session)
 const passportSocketIo = require('passport.socketio');
 
-const store = new LevelStore()
-
+const store = new MemoryStore()
+    
 io.use(passportSocketIo.authorize({
   secret: 'SECRET',
   store: store,
