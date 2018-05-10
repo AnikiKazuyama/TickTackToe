@@ -7,7 +7,7 @@ $wrapper-width: 450px;
     flex-direction: column;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, calc(-50% - .5px));
+    transform: translate(-50%, -49%);
     padding: 30px 50px;
     opacity: 1;
     width: $wrapper-width;
@@ -82,7 +82,7 @@ $wrapper-width: 450px;
     width: $input-height;
     height: $input-height;
     transition: transform .4s, background-image .4s, background-size .4s;
-    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 .wrapper .field.error input + label:after {
@@ -153,26 +153,26 @@ $wrapper-width: 450px;
 }
 
 .fade-enter {
-    transform: translate(-50%, -50%) scale(0);
-    -webkit-transform: translate(-50%, -50%) scale(0); 
+    transform: translate(-50%, -49%) scale(0);
+    -webkit-transform: translate(-50%, -49%) scale(0); 
     opacity: 0;
 }
   
 .fade-enter.fade-enter-active {
-    transform: translate(-50%, -50%) scale(1);
-    -webkit-transform: translate(-50%, -50%) scale(1); 
+    transform: translate(-50%, -49%) scale(1);
+    -webkit-transform: translate(-50%, -49%) scale(1); 
     opacity: 1;
 }
   
 .fade-exit {
-    transform: translate(-50%, -50%) scale(1);
-    -webkit-transform: translate(-50%, -50%) scale(1); 
+    transform: translate(-50%, -49%) scale(1);
+    -webkit-transform: translate(-50%, -49%) scale(1); 
     opacity: 1;
 }
   
 .fade-exit.fade-exit-active {
-    transform: translate(-50%, -50%) scale(0);
-    -webkit-transform: translate(-50%, -50%) scale(0); 
+    transform: translate(-50%, -49%) scale(0);
+    -webkit-transform: translate(-50%, -49%) scale(0); 
     opacity: 0;
 }
 
