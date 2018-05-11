@@ -13,13 +13,9 @@ class Auth extends Component {
     render() {
 
         const { location } = this.props;
-        const isLoggedIn = false;  // Чтобы заработал роут /auth переключи на false
 
-        return isLoggedIn
-               ?
-               <Redirect to = '/user'/>
-               :
-               <TransitionGroup>
+        return (
+            <TransitionGroup>
                 <CSSTransition key={ location.key } classNames="fade" timeout={ 300 }>
                     <div className="wrapper">
                         <Switch location={ location }>
@@ -31,6 +27,7 @@ class Auth extends Component {
                     </div>
                 </CSSTransition>
             </TransitionGroup>
+        )
     }
 
 }

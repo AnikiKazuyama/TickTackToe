@@ -70,7 +70,8 @@ class RegistrationContainer extends Component {
             username: '',
             email: '', 
             password: '', 
-            password_confirmation: ''
+            password_confirmation: '',
+            isLoading: false
         };
 
         this.isFirstExecution = {
@@ -86,6 +87,7 @@ class RegistrationContainer extends Component {
 
     render() {
         return <Registration 
+                    isLoading        = { this.state.isLoading }
                     isFirstExecution = { this.isFirstExecution }
                     validation       = { this.validator.validate(this.state) } 
                     onSubmit         = { this.handleFormSubmit } 
@@ -107,7 +109,7 @@ class RegistrationContainer extends Component {
         event.preventDefault();
 
         const validation = this.validator.validate(this.state);
-        this.setState({ validation });
+        this.setState({ validation, isLoading: true });
         this.submitted = true;
 
         if (validation.isValid) {
@@ -119,14 +121,13 @@ class RegistrationContainer extends Component {
 
             const response = await ApiService.registrationRequest(data);
 
-            if (response.status === 'Success') {
+            if (response.status === 'success') {
                 ApiService.loginRequest(
                     {email: this.state.email, password: this.state.password}
                 ).then((response) => {
-                    if (response.status === 'Success'){
-                        window.localStorage.setItem('isAuthenticated', 'true');
-                        this.props.history.push('/');
-                    }
+                    this.setState({ isLoading: false });
+                    if (response.status === 'success')
+                        this.props.history.push('/user');
                 })
             }
         } 

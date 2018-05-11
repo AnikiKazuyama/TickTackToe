@@ -5,6 +5,7 @@
   outline: none; 
   cursor: pointer;
   transition: background-color .1s;
+  -webkit-backface-visibility: hidden;
 }
 
 .default-button:hover {
@@ -32,6 +33,15 @@
 
 .default-button.cancel {
   background-color: #dd7a7a;
+}
+
+.default-button.loading {
+  background-image: url(../images/loading.gif);
+  background-repeat: no-repeat;
+  background-size: 35px;
+  background-position: center;
+  color: transparent;
+  transition: background-image .2s, color .2s;
 }
 
 .default-button.cancel:hover {

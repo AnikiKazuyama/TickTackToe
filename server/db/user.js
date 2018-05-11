@@ -15,14 +15,15 @@ module.exports = (sequelize, DataTypes) => {
             }
         }, 
         password: DataTypes.STRING
+    });
+
+    User.prototype.getPublicData = function() {
+        return ({
+            id: this.id,
+            name: this.name,
+            email: this.email
+        });
     }
-    // ,{
-    //     valid: {
-    //         validPassword: (password) => {
-    //             return bcrypt.compare(password, this.password);
-    //         }
-    //     }
-    );
 
     User.prototype.validPassword = function(password) {
         return bcrypt.compare(password, this.password).then((res) => res);

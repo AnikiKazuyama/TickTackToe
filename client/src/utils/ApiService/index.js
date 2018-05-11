@@ -30,25 +30,32 @@ class ApiService {
     }
 
     loginRequest = async (data) => {
-        return await this.makeRequest('POST', 'login', data);
-    }
-
-    isAuth = async () => {
-        return await this.makeRequest('GET', 'isauth');
+        return await this.makeRequest('POST', 'api/login', data);
     }
 
     registrationRequest = async (data) => {
-        return await this.makeRequest('POST', 'users/create', data );
+        return await this.makeRequest('POST', 'api/users/create', data );
     }
 
     logoutRequest = async () => {
-        return await this.makeRequest('GET', 'logout' );
+        return await this.makeRequest('GET', 'api/logout' );
+    }
+
+    enterRoom = async () => {
+        return await this.makeRequest('GET', 'api/rooms/enter');
+    }
+
+    leaveRoom = async () => {
+        return await this.makeRequest('GET', 'api/rooms/leave');
+    }
+    
+    getRoomState = async () => {
+        return await this.makeRequest('GET', 'api/rooms/state');
     }
 
     getCurrentUser = async () => {
-        return await this.makeRequest('GET', 'users/getCurrent')
+        return await this.makeRequest('GET', 'api/users/getCurrent');
     }
-
 
 }
 

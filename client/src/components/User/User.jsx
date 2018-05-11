@@ -18,21 +18,35 @@ class User extends Component {
                 user
             });
         }).catch((e) => {
-            if (e.response.data.status === 'Error') {
-                window.localStorage.removeItem('isAuthenticated');
+            if (e.response.data.status === 'error')
                 this.props.history.push('/');
-            }
         });
     }
+    
     render() {
 
         return this.state.user 
         ?
         <div>
-            <p>{this.state.user.email}</p>
+            <h1>{this.state.user.email}</h1>
+            <button onClick={ this.exit }>Выйти</button>
+            <button onClick={ this.enter }>Войти в комнату</button>
         </div>
         :
         <div>Грузимся блять</div>
+    }
+
+    exit = async () => {
+        ApiServices.logoutRequest().then((response) => {
+            this.props.history.push('/');
+        })
+    }
+
+    enter = async () => {
+        ApiServices.enterRoom().then((response) => {
+            if (response.status === 'success')
+                this.props.history.push('/room');
+        })
     }
 }
 

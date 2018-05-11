@@ -5,8 +5,9 @@ const Registration = (props) => {
 
     const errorString = " error";
     const okString = " ok";
+    const loadingString = " loading";
 
-    const { handleChange, onSubmit, validation, isFirstExecution } = props;
+    const { handleChange, onSubmit, validation, isFirstExecution, isLoading } = props;
 
     let isButtonDisabled = validation.email.isInvalid || 
                            validation.password.isInvalid || 
@@ -37,7 +38,7 @@ const Registration = (props) => {
                 <label htmlFor="reg-confirm" required>I agree to the terms of service</label>
             </div>
             <div className="buttons">
-                <button className="register default-button" disabled={ isButtonDisabled } >Register</button>
+                <button className={"register default-button" + (isLoading ? loadingString : "") } disabled={ isButtonDisabled } >Register</button>
                 <Link to="/auth" className="cancel default-button">Cancel</Link>
             </div>
         </form>

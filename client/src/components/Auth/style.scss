@@ -7,13 +7,14 @@ $wrapper-width: 450px;
     flex-direction: column;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -49%);
     padding: 30px 50px;
     opacity: 1;
     width: $wrapper-width;
     background-color: #7a67a8;
     outline: 10px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
+    backface-visibility: hidden;
 }
   
 .wrapper form > *:not(:first-child) {
@@ -34,7 +35,8 @@ $wrapper-width: 450px;
     padding: 0 20px 0 $input-height + 15px;
     font-size: 25px;
     color: #51466b;
-    transition: border .5s;
+    transition: border-color .5s;
+    border: 1px solid transparent;
   }
   
 .wrapper .field {
@@ -80,11 +82,12 @@ $wrapper-width: 450px;
     width: $input-height;
     height: $input-height;
     transition: transform .4s, background-image .4s, background-size .4s;
-    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 .wrapper .field.error input + label:after {
     transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
     background-image: url(../../../public/images/cancel.svg);
     background-size: 50%;
 }
@@ -99,6 +102,7 @@ $wrapper-width: 450px;
 
 .wrapper .field.ok input + label:after {
     transform: rotate(720deg);
+    -webkit-transform: rotate(720deg);    
     background-image: url(../../../public/images/tick.svg);
     background-size: 50%;
 }
@@ -149,30 +153,35 @@ $wrapper-width: 450px;
 }
 
 .fade-enter {
-    transform: translate(-50%, -50%) scale(0);
+    transform: translate(-50%, -49%) scale(0);
+    -webkit-transform: translate(-50%, -49%) scale(0); 
     opacity: 0;
 }
   
 .fade-enter.fade-enter-active {
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -49%) scale(1);
+    -webkit-transform: translate(-50%, -49%) scale(1); 
     opacity: 1;
 }
   
 .fade-exit {
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -49%) scale(1);
+    -webkit-transform: translate(-50%, -49%) scale(1); 
     opacity: 1;
 }
   
 .fade-exit.fade-exit-active {
-    transform: translate(-50%, -50%) scale(0);
+    transform: translate(-50%, -49%) scale(0);
+    -webkit-transform: translate(-50%, -49%) scale(0); 
     opacity: 0;
 }
 
 .fade-enter.fade-enter-active,
 .fade-exit.fade-exit-active {
-    -webkit-transition: opacity 300ms ease-in-out,
-                        transform 300ms ease-in-out;
     transition: opacity 300ms ease-in-out,
+                transform 300ms ease-in-out;
+    -webkit-transition: 
+                opacity 300ms ease-in-out,
                 transform 300ms ease-in-out;
 }
   
@@ -202,6 +211,7 @@ $wrapper-width: 450px;
         position: absolute;
         width: 100%;
         transform: none;
+        -webkit-transform: none; 
     }
   }
 

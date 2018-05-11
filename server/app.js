@@ -11,15 +11,29 @@ const users        = require('./routes/users');
 const rooms        = require('./routes/rooms');
 const login        = require('./routes/login');
 const logout       = require('./routes/logout');
-const isAuth      = require('./routes/isAuth');
 
 const app = express();
+
+const http = require('http').Server(app)
+const io = require('socket.io')(http);
+const MemoryStore = require('memorystore')(session)
+const passportSocketIo = require('passport.socketio');
+
+const store = new MemoryStore()
+    
+io.use(passportSocketIo.authorize({
+  secret: 'SECRET',
+  store: store,
+  passport: passport,
+  cookieParser: cookieParser
+}));
 
 app.use(cors({credentials: true, origin: 'http://localhost:8080'}));
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(session({ 
     secret: 'SECRET',
+    store: store,
     cookie: {
         maxAge: 365 * 24 * 60 * 60 * 1000,
         HttpOnly: false,
@@ -32,11 +46,10 @@ app.use(passport.session());
 
 require('./config/passportStrategy')(passport);
  
-app.use('/rooms', rooms);
-app.use('/users', users);
-app.use('/login', login);
-app.use('/logout', logout);
-app.use('/isauth', isAuth);
+app.use('/api/rooms', rooms(io));
+app.use('/api/users', users);
+app.use('/api/login', login);
+app.use('/api/logout', logout);
 
 app.get('/', (req, res) => {
     res.send('Добро пожаловать на наш проект SurtAniki, мы вам всегда не рады!');
@@ -49,6 +62,6 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-app.listen(3000, () => {
-    console.log('Джигурда');
+http.listen(3000, () => {
+    console.log('OMAEWA MOU 3000');
 })

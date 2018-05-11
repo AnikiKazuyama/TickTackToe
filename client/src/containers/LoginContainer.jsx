@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 import Login from '../components/Login';
 
 import FormValidator from '../utils/FormValidator';
 
 import ApiService from '../utils/ApiService';
 
-
+import { login } from '../actions/userActions';
 
 class LoginContainer extends Component {
 
@@ -45,19 +45,33 @@ class LoginContainer extends Component {
             checkbox: '',
             email: '', 
             password: '', 
-            validation: this.validator.valid()
+            validation: this.validator.valid(),
+            isError: false,
+            isLoading: false
         };
 
         this.submitted = false;
     }
 
+    componentWillReceiveProps(props) {
+        if (props.isLoggedIn)
+            this.props.history.push('/')
+        else
+            this.setState({ 
+                isError: !props.isLoggedIn,
+                isLoading: props.isLoading
+            });
+    }
+
     render() {
 
-        let validation = this.validator.validate(this.state) ;   // then check validity every time we render
+        let validation = this.validator.validate(this.state) ;
 
         let isButtonDisabled = validation.email.isInvalid || validation.password.isInvalid;
 
-        return <Login isButtonDisabled = { isButtonDisabled } 
+        return <Login isLoading = { this.state.isLoading }
+                      isError = { this.state.isError }
+                      isButtonDisabled = { isButtonDisabled } 
                       onSubmit = { this.handleFormSubmit } 
                       handleChange = { this.handleInputChange } 
                                      { ...this.props } 
@@ -71,29 +85,33 @@ class LoginContainer extends Component {
             this.setState({ [event.target.name]: event.target.value });
     }
 
-    handleFormSubmit = async event => {
-
+    handleFormSubmit =  event => {
         event.preventDefault();
 
         const validation = this.validator.validate(this.state);
-        this.setState({ validation });
+        this.setState({ validation, isLoading: true });
         this.submitted = true;
 
-        if (validation.isValid) {
-            const data = {
-                email: this.state.email, 
-                password: this.state.password
-            };
-
-            const response = await ApiService.loginRequest(data);
-
-            if (response.status === 'Success') {
-                window.localStorage.setItem('isAuthenticated', 'true');
-                this.props.history.push('/');
-            }
-        } 
-
+        if (validation.isValid)
+            this.props.login(this.state.email, this.state.password);
     }
 }
 
-export default LoginContainer;
+function mapStateToProps(state) {
+    return {
+        isLoading: state.user.loaders.signInLoading, 
+        isLoggedIn: state.user.isLoggedIn
+    }
+}
+
+function mapDispatchToPrors(dispatch) {
+    return {
+        login: (email, password) => {
+            dispatch(login(email, password));
+        }
+    }
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToPrors)(LoginContainer);

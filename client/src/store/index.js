@@ -6,7 +6,7 @@ import createHistory from 'history/createBrowserHistory';
 
 import  app  from '../reducers/index';
 
-// import watchFetch from '../saga/saga';
+import watchFetch from '../saga';
 
 const history = createHistory();
 
@@ -20,7 +20,7 @@ export default function configureStore(){
         applyMiddleware(sagaMiddleware, loggerMiddleware, routeMiddleware)
     );
 
-    // sagaMiddleware.run(watchFetch);
+    sagaMiddleware.run(watchFetch);
 
     return store;
 }
