@@ -11,20 +11,13 @@ router.post('/create', (req, res) => {
 })
 
 router.get('/getCurrent', (req, res) => {
+    console.log(req.user);
     if(req.isAuthenticated())
         res.json({
             status: "Success",
-            user: getPublicData(req.user)
+            user: req.user.getPublicData()
         });
     else res.json({ status: "Error" });
 })
-
-getPublicData = (user) => {
-    return ({
-        id: user.id,
-        name: user.name,
-        email: user.email
-    });
-}
 
 module.exports = router;

@@ -11,7 +11,7 @@ module.exports = function (passport){
     passport.deserializeUser(function(id, done) {
         model.user.findById(id).then(user => {
             if (user)
-                done(null, user.get());
+                done(null, user); // этот юзер будет доступен в req.user
             else
                 done(user.errors, null);
         });
