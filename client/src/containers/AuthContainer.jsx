@@ -1,7 +1,6 @@
 import React, { Fragment, Component }from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Redirect } from "react-router-dom";
 
 import isAuth from '../HOC/IsAuth';
 
@@ -10,43 +9,25 @@ import ApiService from '../utils/ApiService';
 
 class AuthContainer  extends Component {
 
-    constructor() {
-        super();
-
-        this.state = {
-            isLoggedIn: null
-        }
-    }
-
     componentDidMount() {
-        ApiService.isAuth().then((response) => {
-            this.setState({isLoggedIn: response.status === 'Success'});
-        }).catch((e) => {
-            if (e.response.data.status === 'Error')
-                this.setState({isLoggedIn: false});
-        });
+        if (this.props.isLoggedIn)
+            this.props.history.push('/user');
     }
 
-    render() {
-        if (this.state.isLoggedIn)
-            return <Redirect to="/user"/>
-        else 
-            if (this.state.isLoggedIn == null)
-                return null;
-            else 
-                return(
-                    <Fragment>
-                        <label className="watermark">DEEPLEARNINGINMYASS PRODUCTION</label>
-                        <Auth { ...this.props }/> 
-                    </Fragment>
-                );
+    render() {   
+        return(
+            <Fragment>
+                <label className="watermark">DEEPLEARNINGINMYASS PRODUCTION</label>
+                <Auth { ...this.props }/> 
+            </Fragment>
+        );
     }
 }
 
-const mapStateToprops = (state) => {
+function mapStateToProps(state) {
     return {
-    
-    };
+        isLoggedIn: state.user.isLogin
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -55,4 +36,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToprops, mapDispatchToProps)(AuthContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthContainer);

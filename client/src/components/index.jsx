@@ -18,7 +18,6 @@ export default class Root extends React.Component {
                 <Route path = '/auth' component = { AuthContainer }/>
                 <Route path = '/user' component = { User } />
                 <Route path = '/room' component = { RoomContainer }/>
-                <Redirect exact from = '/' to = '/auth'/>
             </Switch>
         );
     }

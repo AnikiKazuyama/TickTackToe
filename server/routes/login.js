@@ -11,32 +11,29 @@ router.post('/', (req, res, next) => {
     const email = body.email;
 
     passport.authenticate('local', 
-        function(error, user, info){
+        function(error, user, info) {
             return error 
             ? next(error)
             : user 
-                ? req.logIn(user, function(err){
+                ? req.logIn(user, function(err) {
                     return err
                     ? console.log(err.message)
-                    : res.json({status: "Success"});
+                    : res.json({
+                        status: "Success", 
+                        user: getPublicData(user)
+                    });
                 })
                 : res.json({status: "Error"});
         }
     )(req, res, next);
-
-    // models.user.findOne({ where: { email: body.email } })
-    //     .then(user => {
-    //         console.log(user.validPassword(body.password));
-    //         if (user)
-    //         user.validPassword(body.password).then(isCurrect => {
-    //             if (isCurrect)
-    //                 res.send('ok');
-    //             else
-    //                 res.status(400).send('Incorrect password');
-    //         })
-    //      else 
-    //         res.status(400).send('User not found');
-    //     });
 });
+
+getPublicData = (user) => {
+    return ({
+        id: user.id,
+        name: user.name,
+        email: user.email
+    });
+}
 
 module.exports = router;

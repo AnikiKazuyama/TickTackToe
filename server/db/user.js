@@ -16,12 +16,6 @@ module.exports = (sequelize, DataTypes) => {
         }, 
         password: DataTypes.STRING
     }
-    // ,{
-    //     valid: {
-    //         validPassword: (password) => {
-    //             return bcrypt.compare(password, this.password);
-    //         }
-    //     }
     );
 
     User.prototype.validPassword = function(password) {

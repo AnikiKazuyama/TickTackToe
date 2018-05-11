@@ -11,7 +11,6 @@ const users        = require('./routes/users');
 const rooms        = require('./routes/rooms');
 const login        = require('./routes/login');
 const logout       = require('./routes/logout');
-const isAuth      = require('./routes/isAuth');
 
 const app = express();
 
@@ -51,7 +50,6 @@ app.use('/api/rooms', rooms(io));
 app.use('/api/users', users);
 app.use('/api/login', login);
 app.use('/api/logout', logout);
-app.use('/api/isauth', isAuth);
 
 app.get('/', (req, res) => {
     res.send('Добро пожаловать на наш проект SurtAniki, мы вам всегда не рады!');

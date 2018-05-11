@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 import Login from '../components/Login';
 
 import FormValidator from '../utils/FormValidator';
 
 import ApiService from '../utils/ApiService';
 
-
+import { login } from '../actions/userActions';
 
 class LoginContainer extends Component {
 
@@ -47,10 +47,14 @@ class LoginContainer extends Component {
             password: '', 
             validation: this.validator.valid(),
             isError: false,
-            isLoading: false
+            // isLoading: false
         };
 
         this.submitted = false;
+    }
+
+    componentWillReceiveProps() {   
+        this.props.isLogin ? this.props.history.push('/') : this.setState({isError: true});
     }
 
     render() {
@@ -59,7 +63,7 @@ class LoginContainer extends Component {
 
         let isButtonDisabled = validation.email.isInvalid || validation.password.isInvalid;
 
-        return <Login isLoading = { this.state.isLoading }
+        return <Login isLoading = { this.props.isLoading }
                       isError = { this.state.isError }
                       isButtonDisabled = { isButtonDisabled } 
                       onSubmit = { this.handleFormSubmit } 
@@ -75,7 +79,7 @@ class LoginContainer extends Component {
             this.setState({ [event.target.name]: event.target.value });
     }
 
-    handleFormSubmit = async event => {
+    handleFormSubmit =  event => {
 
         event.preventDefault();
 
@@ -84,21 +88,39 @@ class LoginContainer extends Component {
         this.submitted = true;
 
         if (validation.isValid) {
-            const data = {
-                email: this.state.email, 
-                password: this.state.password
-            };
+            // const data = {
+            //     email: this.state.email, 
+            //     password: this.state.password
+            // };
 
-            ApiService.loginRequest(data).then((response) => {
-                this.setState({ isLoading: false });
-                if (response.status === 'Success')
-                    this.props.history.push('/user');
-                else if (response.status === 'Error')
-                    this.setState({ isError: true });
-            });
+            // ApiService.loginRequest(data).then((response) => {
+            //     this.setState({ isLoading: false });
+            //     if (response.status === 'Success')
+            //         this.props.history.push('/user');
+            //     else if (response.status === 'Error')
+            //         this.setState({ isError: true });
+            // });
+
+            this.props.login(this.state.email, this.state.password);
         } 
-
     }
 }
 
-export default LoginContainer;
+function mapStateToProps(state) {
+    return {
+        isLoading: state.user.isLoading, 
+        isLogin: state.user.isLogin,
+    }
+}
+
+function mapDispatchToPrors(dispatch) {
+    return {
+        login: (email, password) => {
+            dispatch(login(email, password));
+        }
+    }
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToPrors)(LoginContainer);
