@@ -20,7 +20,7 @@ router.post('/', (req, res, next) => {
                     ? console.log(err.message)
                     : res.json({
                         status: "Success", 
-                        user: getPublicData(user)
+                        user: user.getPublicData()
                     });
                 })
                 : res.json({status: "Error"});
@@ -28,12 +28,5 @@ router.post('/', (req, res, next) => {
     )(req, res, next);
 });
 
-getPublicData = (user) => {
-    return ({
-        id: user.id,
-        name: user.name,
-        email: user.email
-    });
-}
 
 module.exports = router;
