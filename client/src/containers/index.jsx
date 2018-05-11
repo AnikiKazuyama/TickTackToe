@@ -12,11 +12,9 @@ class RootContainer extends Component {
     }
 
     render(){
-        if (!this.props.isLoggedIn && this.props.location.pathname != "/auth")
-            return <Redirect to="/auth"/>
-        else if (this.props.isLoading)
+        if (this.props.isLoading || this.props.isLoading == null)
             return null;
-        else 
+        else
             return(
                 <Root { ...this.props }/>
             );
@@ -25,8 +23,8 @@ class RootContainer extends Component {
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.user.isLoading, 
-        isLoggedIn: state.user.isLogin
+        isLoading: state.user.loaders.getCurrentLoading, 
+        isLoggedIn: state.user.isLoggedIn
     }
 }
 

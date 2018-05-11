@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         password: DataTypes.STRING
     });
 
-    User.prototype.getPublicData = () => {
+    User.prototype.getPublicData = function() {
         return ({
             id: this.id,
             name: this.name,

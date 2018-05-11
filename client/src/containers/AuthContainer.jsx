@@ -2,15 +2,13 @@ import React, { Fragment, Component }from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import isAuth from '../HOC/IsAuth';
-
 import Auth from '../components/Auth';
 import ApiService from '../utils/ApiService';
 
 class AuthContainer  extends Component {
 
     componentDidMount() {
-        if (this.props.isLoggedIn)
+        if (this.props.isExistSession)
             this.props.history.push('/user');
     }
 
@@ -26,7 +24,7 @@ class AuthContainer  extends Component {
 
 function mapStateToProps(state) {
     return {
-        isLoggedIn: state.user.isLogin
+        isExistSession: state.user.isExistSession
     }
 }
 

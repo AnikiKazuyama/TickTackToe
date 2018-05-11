@@ -47,23 +47,29 @@ class LoginContainer extends Component {
             password: '', 
             validation: this.validator.valid(),
             isError: false,
-            // isLoading: false
+            isLoading: false
         };
 
         this.submitted = false;
     }
 
-    componentWillReceiveProps() {   
-        this.props.isLogin ? this.props.history.push('/') : this.setState({isError: true});
+    componentWillReceiveProps(props) {
+        if (props.isLoggedIn)
+            this.props.history.push('/')
+        else
+            this.setState({ 
+                isError: !props.isLoggedIn,
+                isLoading: props.isLoading
+            });
     }
 
     render() {
 
-        let validation = this.validator.validate(this.state) ;   // then check validity every time we render
+        let validation = this.validator.validate(this.state) ;
 
         let isButtonDisabled = validation.email.isInvalid || validation.password.isInvalid;
 
-        return <Login isLoading = { this.props.isLoading }
+        return <Login isLoading = { this.state.isLoading }
                       isError = { this.state.isError }
                       isButtonDisabled = { isButtonDisabled } 
                       onSubmit = { this.handleFormSubmit } 
@@ -80,36 +86,21 @@ class LoginContainer extends Component {
     }
 
     handleFormSubmit =  event => {
-
         event.preventDefault();
 
         const validation = this.validator.validate(this.state);
         this.setState({ validation, isLoading: true });
         this.submitted = true;
 
-        if (validation.isValid) {
-            // const data = {
-            //     email: this.state.email, 
-            //     password: this.state.password
-            // };
-
-            // ApiService.loginRequest(data).then((response) => {
-            //     this.setState({ isLoading: false });
-            //     if (response.status === 'Success')
-            //         this.props.history.push('/user');
-            //     else if (response.status === 'Error')
-            //         this.setState({ isError: true });
-            // });
-
+        if (validation.isValid)
             this.props.login(this.state.email, this.state.password);
-        } 
     }
 }
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.user.isLoading, 
-        isLogin: state.user.isLogin,
+        isLoading: state.user.loaders.signInLoading, 
+        isLoggedIn: state.user.isLoggedIn
     }
 }
 

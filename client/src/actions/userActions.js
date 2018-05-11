@@ -16,7 +16,6 @@ export function login( email, password ){
 }
 
 export function loginSuccess(user) {
-    console.log(user);
     return {
         type: LOGIN_SUCCESS,
         ...user

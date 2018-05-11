@@ -63,5 +63,5 @@ app.use(function(req, res, next) {
 });
 
 http.listen(3000, () => {
-    console.log('Джигурда');
+    console.log('OMAEWA MOU 3000');
 })

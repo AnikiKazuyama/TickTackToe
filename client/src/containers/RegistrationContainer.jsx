@@ -121,12 +121,12 @@ class RegistrationContainer extends Component {
 
             const response = await ApiService.registrationRequest(data);
 
-            if (response.status === 'Success') {
+            if (response.status === 'success') {
                 ApiService.loginRequest(
                     {email: this.state.email, password: this.state.password}
                 ).then((response) => {
                     this.setState({ isLoading: false });
-                    if (response.status === 'Success')
+                    if (response.status === 'success')
                         this.props.history.push('/user');
                 })
             }

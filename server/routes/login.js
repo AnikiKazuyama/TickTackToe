@@ -17,13 +17,13 @@ router.post('/', (req, res, next) => {
             : user 
                 ? req.logIn(user, function(err) {
                     return err
-                    ? console.log(err.message)
+                    ? res.status(500).send(err.message)
                     : res.json({
-                        status: "Success", 
+                        status: "success", 
                         user: user.getPublicData()
                     });
                 })
-                : res.json({status: "Error"});
+                : res.json({status: "error"});
         }
     )(req, res, next);
 });

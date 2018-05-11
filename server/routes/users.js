@@ -5,19 +5,18 @@ const router = express.Router();
 router.post('/create', (req, res) => {
     models.user
         .create({ name: req.body.name, email: req.body.email, password: req.body.password })
-        .then(() => res.json({status: "Success"}))
-        .catch( e => res.status(400).json({status: "Error"}))   
+        .then(() => res.json({status: "success"}))
+        .catch( e => res.status(400).json({status: "error"}))   
     
 })
 
 router.get('/getCurrent', (req, res) => {
-    console.log(req.user);
     if(req.isAuthenticated())
         res.json({
-            status: "Success",
+            status: "success",
             user: req.user.getPublicData()
         });
-    else res.json({ status: "Error" });
+    else res.json({ status: "error" });
 })
 
 module.exports = router;

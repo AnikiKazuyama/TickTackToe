@@ -18,7 +18,7 @@ class User extends Component {
                 user
             });
         }).catch((e) => {
-            if (e.response.data.status === 'Error')
+            if (e.response.data.status === 'error')
                 this.props.history.push('/');
         });
     }
@@ -38,13 +38,13 @@ class User extends Component {
 
     exit = async () => {
         ApiServices.logoutRequest().then((response) => {
-            this.props.history.push('/auth');
+            this.props.history.push('/');
         })
     }
 
     enter = async () => {
         ApiServices.enterRoom().then((response) => {
-            if (response.status === 'Success')
+            if (response.status === 'success')
                 this.props.history.push('/room');
         })
     }

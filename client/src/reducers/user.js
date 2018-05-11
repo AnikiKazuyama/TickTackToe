@@ -4,8 +4,12 @@ const initState = {
     id: null,
     email: null, 
     name: null, 
-    isLoading: false,
-    isLogin: false
+    loaders: {
+        getCurrentLoading: false,
+        signInLoading: false,
+    },
+    isLoggedIn: false,
+    isExistSession: false
 }
 
 export default function user(state = initState, action) {
@@ -13,7 +17,10 @@ export default function user(state = initState, action) {
         case(LOGIN): 
             return ({
                 ...state,
-                isLoading: true
+                loaders: {
+                    getCurrentLoading: false,
+                    signInLoading: true,
+                }
             });
 
         case(LOGIN_SUCCESS): 
@@ -21,21 +28,32 @@ export default function user(state = initState, action) {
                 ...state, 
                 email: action.email,
                 name:  action.name,
-                isLogin: true, 
-                isLoading: false
+                isExistSession: true,
+                isLoggedIn: true, 
+                loaders: {
+                    getCurrentLoading: false,
+                    signInLoading: false,
+                }
             });
 
         case(LOGIN_FAILED): 
             return({
-                ...state, 
-                isLogin: false, 
-                isLoading: false
+                ...state,
+                isExistSession: false,
+                isLoggedIn: false, 
+                loaders: {
+                    getCurrentLoading: false,
+                    signInLoading: false,
+                }
             });
 
         case(GET_USER):
             return({
                 ...state,
-                isLoading: true
+                loaders: {
+                    getCurrentLoading: true,
+                    signInLoading: false,
+                }
             });
 
         case(GET_USER_SUCCESS):
@@ -43,15 +61,23 @@ export default function user(state = initState, action) {
                 ...state,
                 email: action.email, 
                 name: action.name, 
-                isLoading: false,
-                isLogin: true
+                isExistSession: true,
+                isLoggedIn: true,
+                loaders: {
+                    getCurrentLoading: false,
+                    signInLoading: false,
+                }
             });
 
         case(GET_USER_FAILED):
             return({
                 ...state,
-                isLoading: false,
-                isLogin: false
+                isExistSession: false,
+                isLoggedIn: false,
+                loaders: {
+                    getCurrentLoading: false,
+                    signInLoading: false,
+                }
             });
 
         default: 
