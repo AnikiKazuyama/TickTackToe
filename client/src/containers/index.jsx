@@ -7,11 +7,17 @@ import { getUser } from '../actions/userActions';
 
 class RootContainer extends Component {
 
+    constructor() {
+        super();
+        this.count = 0;
+    }
+
     componentDidMount() {
         this.props.getUser();
     }
 
     render(){
+        console.log('render')
         if (this.props.isLoading || this.props.isLoading == null)
             return null;
         else
@@ -24,7 +30,7 @@ class RootContainer extends Component {
 function mapStateToProps(state) {
     return {
         isLoading: state.user.loaders.getCurrentLoading, 
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isExistSession
     }
 }
 

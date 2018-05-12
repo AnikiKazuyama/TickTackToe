@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 
+import { connect } from 'react-redux';
+
+import { login } from '../actions/userActions';
+
 import FormValidator from '../utils/FormValidator';
 
 import Registration from '../components/Registration';
 
 import ApiService from '../utils/ApiService';
+
 
 class RegistrationContainer extends Component {
 
@@ -121,25 +126,30 @@ class RegistrationContainer extends Component {
 
             const response = await ApiService.registrationRequest(data);
 
-            if (response.status === 'success') {
-                ApiService.loginRequest(
-                    {email: this.state.email, password: this.state.password}
-                ).then((response) => {
-                    this.setState({ isLoading: false });
-                    if (response.status === 'success')
-                        this.props.history.push('/user');
-                })
-            }
+            if (response.status === 'success')
+                this.props.login(data.email, data.password)
         } 
-
     }
 
     passwordMatch = (confirmation, state) => (state.password === confirmation);
 
     isChecked = (confirmation, state) => (state.checkbox);
 
-    
+}
+
+function mapStateToProps(state) {
+    return {
+        
+    }
+}
+
+function mapDispatchToPrors(dispatch) {
+    return {
+        login: (email, password) => {
+            dispatch(login(email, password));
+        }
+    }
 }
 
 
-export default RegistrationContainer;
+export default connect(mapStateToProps, mapDispatchToPrors)(RegistrationContainer);

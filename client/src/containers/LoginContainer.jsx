@@ -54,13 +54,13 @@ class LoginContainer extends Component {
     }
 
     componentWillReceiveProps(props) {
-        if (props.isLoggedIn)
-            this.props.history.push('/')
-        else
+        if (!props.isLoggedIn && this.submitted && !props.isLoading)
             this.setState({ 
-                isError: !props.isLoggedIn,
-                isLoading: props.isLoading
+                isError: !props.isLoggedIn
             });
+        this.setState({
+            isLoading: props.isLoading
+        });
     }
 
     render() {

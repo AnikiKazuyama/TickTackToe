@@ -1,10 +1,12 @@
 import { 
     LOGIN,
     LOGIN_SUCCESS,
-    LOGIN_FAILED, 
+    LOGIN_FAILED,
+    LOGOUT,
+    LOGOUT_SUCCESS,
     GET_USER,
     GET_USER_FAILED, 
-    GET_USER_SUCCESS 
+    GET_USER_SUCCESS,  
 } from '../constants/actions/userActions';
 
 export function login( email, password ){
@@ -44,5 +46,17 @@ export function getUserSuccess(user) {
 export function getUserFailed() {
     return {
         type: GET_USER_FAILED
+    }
+}
+
+export function logout() {
+    return {
+        type: LOGOUT
+    }
+}
+
+export function logoutSuccess() {
+    return {
+        type: LOGOUT_SUCCESS
     }
 }

@@ -1,53 +1,32 @@
 import React, { Component } from 'react';
 
+import CSSModules from 'react-css-modules';
+
+import styles from './style.scss';
+
 import ApiServices from '../../utils/ApiService';
 
 class User extends Component {
-
-    constructor() {
-        super();
-
-        this.state = {
-            user: null
-        }
-    }
-
-    componentDidMount() {
-        ApiServices.getCurrentUser().then((user) => {
-            this.setState({
-                user
-            });
-        }).catch((e) => {
-            if (e.response.data.status === 'error')
-                this.props.history.push('/');
-        });
-    }
     
     render() {
-
-        return this.state.user 
-        ?
-        <div>
-            <h1>{this.state.user.email}</h1>
-            <button onClick={ this.exit }>Выйти</button>
-            <button onClick={ this.enter }>Войти в комнату</button>
-        </div>
-        :
-        <div>Грузимся блять</div>
-    }
-
-    exit = async () => {
-        ApiServices.logoutRequest().then((response) => {
-            this.props.history.push('/');
-        })
-    }
-
-    enter = async () => {
-        ApiServices.enterRoom().then((response) => {
-            if (response.status === 'success')
-                this.props.history.push('/room');
-        })
+        return(
+            <section className="wrapper-profile">
+                <div className="profile">
+                    <header>
+                        <div className="avatar"></div>
+                        <div className="info">
+                            <h3>{this.props.username}</h3>
+                            <span>ONLINE</span>
+                        </div>
+                    </header>
+                    <main>
+                        <button onClick={ this.props.exit }>Выйти</button>
+                        <button onClick={ this.props.enter }>Войти в комнату</button>
+                    </main>
+                </div>
+            </section>
+        );
     }
 }
 
-export default User;
+export default CSSModules(User, styles);

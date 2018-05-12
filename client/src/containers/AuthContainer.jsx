@@ -12,6 +12,11 @@ class AuthContainer  extends Component {
             this.props.history.push('/user');
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isExistSession)
+            this.props.history.push('/user');
+    }
+
     render() {   
         return(
             <Fragment>

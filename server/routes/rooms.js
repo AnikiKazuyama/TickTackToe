@@ -12,49 +12,32 @@ module.exports = (function(io) {
         if(req.isAuthenticated()) {
             const user = new User(req.user.id, req.user.name);
             res.json({status: room.enter(user) ? "success" : "error"});
+            io.sockets.emit('updateClient', room);
         } else 
             res.status(403).json({status: "error"});
-        io.sockets.emit('updateServer');
     });
 
     router.get('/leave', (req, res) => {
         if(req.isAuthenticated()) {
             const user = new User(req.user.id, req.user.name);
             res.json({status: room.leave(user) ? "success" : "error"});
-            io.socket.emit('updateServer');
+            io.sockets.emit('updateClient', room);
         } else 
             res.status(403).json({status: "error"});
-
-        io.sockets.emit('updateServer');
-        
     });
-    
-    router.get('/state', (req, res) => {
-        res.json({
-            status: "Success",
-            room: room
-        })
-    });
-    
-    router.get('/', ( req, res ) => {
-        models.room.findAll()
-                   .then(room => {
-                       res.json(room);
-                   });
-    })
 
     const socket = io.on('connection', socket => {
         socket.on('updateServer', () => {
             console.log(socket.request.isAuthenticated());
             io.sockets.emit('updateClient', room);
         })
-    
-        socket.on('disconnect', () => {
-            console.log('user disconnected');
+
+        socket.on('getDataServer', () => {
+            socket.emit('getDataClient', room)
         })
 
-        socket.on('getState', (callback) => {
-            callback(room);
+        socket.on('disconnect', () => {
+            console.log('user disconnected');
         })
       });
 

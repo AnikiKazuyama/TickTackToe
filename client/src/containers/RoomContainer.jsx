@@ -23,15 +23,15 @@ class RoomContainer extends Component {
     }
 
     componentDidMount() {
-        this.socket.on('enterClient', (room) => {
+        this.socket.on('updateClient', (room) => {
             this.setState({ room });
         });
 
-        this.socket.on('leaveClient', (room) => {
+        this.socket.on('getDataClient', (room) => {
             this.setState({ room });
         });
 
-        this.socket.emit('enterServer');
+        this.socket.emit('getDataServer');
     }
 
     render() {
@@ -43,7 +43,6 @@ class RoomContainer extends Component {
     leave = async () => {
         ApiService.leaveRoom().then(() => {
             this.props.history.push('/user');
-            this.socket.emit('leaveServer');
             this.socket.disconnect();
         } );
     }

@@ -1,4 +1,13 @@
-import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILED, GET_USER, GET_USER_FAILED, GET_USER_SUCCESS } from '../constants/actions/userActions';
+import { 
+    LOGIN, 
+    LOGIN_SUCCESS, 
+    LOGIN_FAILED,
+    LOGOUT,
+    LOGOUT_SUCCESS,
+    GET_USER, 
+    GET_USER_FAILED, 
+    GET_USER_SUCCESS
+ } from '../constants/actions/userActions';
 
 const initState = {
     id: null,
@@ -45,6 +54,17 @@ export default function user(state = initState, action) {
                     getCurrentLoading: false,
                     signInLoading: false,
                 }
+            });
+
+        case(LOGOUT): 
+            return ({
+                ...state
+            });
+
+        case(LOGOUT_SUCCESS): 
+            return ({
+                ...state, 
+                ...initState
             });
 
         case(GET_USER):
