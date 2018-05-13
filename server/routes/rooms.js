@@ -26,14 +26,13 @@ module.exports = (function(io) {
             res.status(403).json({status: "error"});
     });
 
-    const socket = io.on('connection', socket => {
+io.on('connection', socket => {
         socket.on('updateServer', () => {
-            console.log(socket.request.isAuthenticated());
             io.sockets.emit('updateClient', room);
         })
 
         socket.on('getDataServer', () => {
-            socket.emit('getDataClient', room)
+            socket.emit('getDataClient', room);
         })
 
         socket.on('disconnect', () => {

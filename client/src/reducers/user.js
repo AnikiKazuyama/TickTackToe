@@ -17,8 +17,8 @@ const initState = {
         getCurrentLoading: false,
         signInLoading: false,
     },
-    isLoggedIn: false,
-    isExistSession: false
+    isLoggedIn: null,
+    isExistSession: null
 }
 
 export default function user(state = initState, action) {

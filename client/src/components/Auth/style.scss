@@ -152,32 +152,32 @@ $wrapper-auth-width: 450px;
     border-bottom-color: #ffffff;
 }
 
-.fade-enter {
+.fade-auth-enter {
     transform: translate(-50%, -49%) scale(0);
     -webkit-transform: translate(-50%, -49%) scale(0); 
     opacity: 0;
 }
   
-.fade-enter.fade-enter-active {
+.fade-auth-enter.fade-auth-enter-active {
     transform: translate(-50%, -49%) scale(1);
     -webkit-transform: translate(-50%, -49%) scale(1); 
     opacity: 1;
 }
   
-.fade-exit {
+.fade-auth-exit {
     transform: translate(-50%, -49%) scale(1);
     -webkit-transform: translate(-50%, -49%) scale(1); 
     opacity: 1;
 }
   
-.fade-exit.fade-exit-active {
+.fade-auth-exit.fade-auth-exit-active {
     transform: translate(-50%, -49%) scale(0);
     -webkit-transform: translate(-50%, -49%) scale(0); 
     opacity: 0;
 }
 
-.fade-enter.fade-enter-active,
-.fade-exit.fade-exit-active {
+.fade-auth-enter.fade-auth-enter-active,
+.fade-auth-exit.fade-auth-exit-active {
     transition: opacity 300ms ease-in-out,
                 transform 300ms ease-in-out;
     -webkit-transition: 
@@ -204,10 +204,10 @@ $wrapper-auth-width: 450px;
         flex-direction: column;
     }
 
-    .fade-enter,
-    .fade-enter.fade-enter-active,
-    .fade-exit,
-    .fade-exit.fade-exit-active {
+    .fade-auth-enter,
+    .fade-auth-enter.fade-auth-enter-active,
+    .fade-auth-exit,
+    .fade-auth-exit.fade-auth-exit-active {
         position: absolute;
         width: 100%;
         transform: none;

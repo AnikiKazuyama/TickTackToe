@@ -9,12 +9,12 @@ class AuthContainer  extends Component {
 
     componentDidMount() {
         if (this.props.isExistSession)
-            this.props.history.push('/user');
+            this.props.history.push('/profile');
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.isExistSession)
-            this.props.history.push('/user');
+            this.props.history.push('/profile');
     }
 
     render() {   

@@ -16,7 +16,7 @@ class Auth extends Component {
 
         return (
             <TransitionGroup>
-                <CSSTransition key={ location.key } classNames="fade" timeout={ 300 }>
+                <CSSTransition key={ location.key } classNames="fade-auth" timeout={ 300 }>
                     <div className="wrapper-auth">
                         <Switch location={ location }>
                             <Route exact path="/auth" component={ LoginContainer } />

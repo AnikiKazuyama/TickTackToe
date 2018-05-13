@@ -14,15 +14,15 @@ class RoomContainer extends Component {
 
     constructor() {
         super();
-
-        this.socket = io.connect('http://localhost:3000');
-
         this.state = {
             room: null
         }
     }
 
     componentDidMount() {
+        this.socket = io.connect('http://localhost:3000');
+        
+
         this.socket.on('updateClient', (room) => {
             this.setState({ room });
         });
@@ -35,14 +35,14 @@ class RoomContainer extends Component {
     }
 
     render() {
-        return <Room    onClickLeave = { this.leave }
-                        room = { this.state.room }
+        return <Room onClickLeave = { this.leave }
+                     room = { this.state.room }
                             { ...this.props } />;
     }
 
     leave = async () => {
         ApiService.leaveRoom().then(() => {
-            this.props.history.push('/user');
+            this.props.history.push('/profile');
             this.socket.disconnect();
         } );
     }

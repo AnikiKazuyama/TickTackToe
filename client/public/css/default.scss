@@ -119,6 +119,28 @@ a:hover { text-decoration: underline; }
     *zoom: 1;
 }
 
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0;
+}
+
+.fade-enter.fade-enter-active,
+.fade-exit.fade-exit-active {
+  transition: opacity 300ms ease-in-out;
+  -webkit-transition: opacity 300ms ease-in-out;
+}
+
 @media (max-width: 767px) {
   body {
     background: #7a67a8;
