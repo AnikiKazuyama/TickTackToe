@@ -8,12 +8,11 @@ import ApiService from '../utils/ApiService';
 
 import io from 'socket.io-client';
 
-
-
 class RoomContainer extends Component {
 
-    constructor() {
+    constructor(props) {
         super();
+        this.roomID = props.match.params.id;
         this.state = {
             room: null
         }
@@ -21,30 +20,35 @@ class RoomContainer extends Component {
 
     componentDidMount() {
         this.socket = io.connect('http://localhost:3000');
-        
 
-        this.socket.on('updateClient', (room) => {
+        this.socket.on('updateRoomClient', (id, room) => {
+            if (id == this.roomID)
+                this.setState({ room });
+        });
+
+        this.socket.on('getRoomDataClient', (room) => {
             this.setState({ room });
         });
 
-        this.socket.on('getDataClient', (room) => {
-            this.setState({ room });
-        });
-
-        this.socket.emit('getDataServer');
+        this.socket.emit('getRoomDataServer', this.roomID);
     }
 
     render() {
+        console.log(this.state.room);
         return <Room onClickLeave = { this.leave }
                      room = { this.state.room }
                             { ...this.props } />;
     }
 
-    leave = async () => {
-        ApiService.leaveRoom().then(() => {
+    leave = () => {
+        // ApiService.leaveRoom().then(() => {
+        //     this.props.history.push('/profile');
+        //     this.socket.disconnect();
+        // } );
+        this.socket.emit('leaveRoom', this.roomID, () => {
             this.props.history.push('/profile');
             this.socket.disconnect();
-        } );
+        });
     }
 }
 

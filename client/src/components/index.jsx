@@ -13,18 +13,18 @@ import "../../public/css/default.scss";
 
 export default class Root extends React.Component {
     
+    
     render() {
+        const { location } = this.props;
+        
         return(
-            <TransitionGroup>
-                <CSSTransition key={ location.key } classNames="fade" timeout={ 300 }>
-                    <Switch>
-                        <Route path = '/auth' component = { AuthContainer }/>
-                        <Route path = '/profile' component = { ProfileContainer } />
-                        <Route path = '/room' component = { RoomContainer }/>
-                        <Redirect exact from = '/' to = { this.props.isExistSession != null ? this.props.isExistSession ? '/profile' : '/auth' : '/'} />
-                    </Switch>
-                </CSSTransition>
-            </TransitionGroup>
+            <Switch>
+                <Route path = '/auth' component = { AuthContainer }/>
+                <Route path = '/profile' component = { ProfileContainer } />
+                <Route path = '/room/:id' component = { RoomContainer }/>
+                <Redirect exact from = '/' to = { this.props.isExistSession != null ? this.props.isExistSession ? '/profile' : '/auth' : '/'} />
+                <Route render = {() => <div>404</div> }/>
+            </Switch>
         );
     }
 }

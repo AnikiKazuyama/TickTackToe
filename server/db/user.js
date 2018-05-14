@@ -17,6 +17,20 @@ module.exports = (sequelize, DataTypes) => {
         password: DataTypes.STRING
     });
 
+    User.prototype.roomId = null;
+
+    User.prototype.getRoomID = function() {
+        return this.roomId;
+    }
+
+    User.prototype.enterRoom = function(id) {
+        this.roomId = id;
+    }
+
+    User.prototype.leaveRoom = function() {
+        this.roomId = null;
+    }
+
     User.prototype.getPublicData = function() {
         return ({
             id: this.id,

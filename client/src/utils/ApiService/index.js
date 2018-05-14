@@ -3,7 +3,7 @@ import axios from 'axios';
 import qs from 'qs';
 
 class ApiService {
-    makeRequest(method, url, data) {     
+    makeRequest(method, url, data) {
         switch(method){
            case('GET'):
             return axios.get(`${ URL }/${ url }`, { withCredentials: true })
@@ -25,6 +25,8 @@ class ApiService {
             return axios(options)
             .then(response => {
                 return response.data;
+            }).catch(function (error) {
+                throw(error);
             });
         }
     }

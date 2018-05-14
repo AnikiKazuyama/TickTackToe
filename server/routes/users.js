@@ -2,11 +2,11 @@ const models = require('../db/index');
 const express = require('express');
 const router = express.Router();
 
-router.post('/create', (req, res) => {
+router.post('/create', (req, res) => { 
     models.user
         .create({ name: req.body.name, email: req.body.email, password: req.body.password })
         .then(() => res.json({status: "success"}))
-        .catch( e => res.status(400).json({status: "error"}))   
+        .catch( e => res.json({status: "error", reason: e.errors[0].path}))
     
 })
 

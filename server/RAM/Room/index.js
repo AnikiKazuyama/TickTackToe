@@ -3,6 +3,10 @@ class Room {
         this.players = [];        
     }
 
+    getPlayersCount() {
+        return this.players.length;
+    }
+
     enter(user) {
         if (this.isExist(user) != -1) {
             console.log('Уже существует, пропускаем')

@@ -76,7 +76,11 @@ class RegistrationContainer extends Component {
             email: '', 
             password: '', 
             password_confirmation: '',
-            isLoading: false
+            isLoading: false, 
+            serverErrors: {
+                email: false,
+                name: false
+            }
         };
 
         this.isFirstExecution = {
@@ -95,9 +99,10 @@ class RegistrationContainer extends Component {
                     isLoading        = { this.state.isLoading }
                     isFirstExecution = { this.isFirstExecution }
                     validation       = { this.validator.validate(this.state) } 
-                    onSubmit         = { this.handleFormSubmit } 
+                    onSubmit         = { this.handleFormSubmit }
+                    serverErrors     = { this.state.serverErrors }
                     handleChange     = { this.handleInputChange } 
-                                       { ...this.props } 
+                                       { ...this.props }
                 />;
     }
 
@@ -128,6 +133,16 @@ class RegistrationContainer extends Component {
 
             if (response.status === 'success')
                 this.props.login(data.email, data.password)
+            else {
+                this.setState({
+                    isLoading: false, 
+                    serverErrors: {
+                        name: response.reason === 'name', 
+                        email: response.reason === 'email'
+                    }
+                });
+
+            }
         } 
     }
 

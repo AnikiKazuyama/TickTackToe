@@ -5,6 +5,7 @@ import ApiServices from '../../utils/ApiService';
 class Room extends Component {
     
     render() {
+
         const room = this.props.room;
 
         return room != null

@@ -5,8 +5,9 @@ import { logoutSuccess } from '../actions/userActions';
 import ApiService from '../utils/ApiService';
 
 export default function* logoutSaga(action){
-    const response = yield call(ApiService.logoutRequest);
-
+    try {
+        const response = yield call(ApiService.logoutRequest);
+    } catch(e) {}
+    
     yield put(logoutSuccess());
-
 }
