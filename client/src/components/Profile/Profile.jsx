@@ -27,34 +27,34 @@ class Profile extends Component {
                         </nav>
                     </header>
                     <main className="rooms">
-                        <div style={{borderColor: '#077480'}} className="room-item default-mod">
-                            <div className="container">
-                                <span className="room-name">My room 1</span>
-                                <button className="enter-button" onClick={ this.props.enter } />
-                            </div>
-                        </div>
-                        <div style={{borderColor: '#7fcf6f'}} className="room-item default-mod">
-                            <div className="container">
-                                <span className="room-name">My room 2</span>
-                                <button className="enter-button" onClick={ this.props.enter } />
-                            </div>
-                        </div>
-                        <div style={{borderColor: '#548978'}} className="room-item default-mod">
-                            <div className="container">
-                                <span className="room-name">My room 3</span>
-                                <button className="enter-button" onClick={ this.props.enter } />
-                            </div>
-                        </div>
-                        <div style={{borderColor: '#820957'}} className="room-item default-mod">
-                            <div className="container">
-                                <span className="room-name">My room 4</span>
-                                <button className="enter-button" onClick={ this.props.enter } />
-                            </div>
-                        </div>
+                        { this.props.rooms ? this.renderRooms() : null }
+                        <form onSubmit = { this.props.create }>
+                            <input type="text" onChange = { this.props.handleChange }/>
+                            <button type="submit" >Create room</button>
+                        </form>
+                        
                     </main>
                 </div>
             </section>
         );
+    }
+
+    renderRooms() {
+        const rooms = this.props.rooms;
+        let roomsContainer = [];
+
+        for(const key in rooms) {
+            roomsContainer.push((
+                <div key = { key } style={{borderColor: '#077480'}} className="room-item default-mod">
+                    <div className="container">
+                        <span className="room-name">{ rooms[key].name }</span>
+                        <button data-id = { key } className="enter-button" onClick={ this.props.enter } />
+                    </div>
+                </div>
+            ));
+        }
+
+        return roomsContainer;
     }
 }
 

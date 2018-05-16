@@ -10,10 +10,13 @@ import ApiServices from '../utils/ApiService';
 
 import io from 'socket.io-client';
 
-class UserContainer extends Component {
+class ProfileContainer extends Component {
 
     constructor() {
         super();
+
+        this.roomName = '';
+
         this.state = {
             rooms: null
         }
@@ -32,18 +35,37 @@ class UserContainer extends Component {
     }
     
     render() {
-        return <Profile { ...this.props } enter = { this.enter } />
+        return <Profile { ...this.props } 
+                        enter       = { this.enter } 
+                        rooms        = { this.state.rooms }  
+                        create       = { this.create } 
+                        handleChange = { this.handleChange }/>
     }
 
-    enter = (id) => {
+    handleChange = (e) => {
+        const name = e.target.value;
+        this.roomName = name;
+    }
+
+    create = (e) => {
+        e.preventDefault();
+
+        this.socket.emit('createRoom', this.roomName, (name) => {
+            this.props.history.push(`/room/${ name }`);
+        });
+    }
+
+    enter = (e) => {
         // ApiServices.enterRoom().then((response) => {
         //     if (response.status === 'success')
         //         this.props.history.push('/room');
         // })
 
-        this.socket.emit('enterRoom', 1 , (status) => {
+        const id = e.target.dataset.id;
+
+        this.socket.emit('enterRoom', id, (status) => {
             if (status) {
-                this.props.history.push('/room/1');
+                this.props.history.push(`/room/${ id }`);
                 this.socket.disconnect();
             } else 
                 console.log('соси хуй, что то пошшло не так');
@@ -55,11 +77,11 @@ class UserContainer extends Component {
         this.socket = io.connect('http://localhost:3000');
 
         this.socket.on('getDataClient', (rooms) => {
+            console.log(rooms);
             this.setState({ rooms });
         });
 
         this.socket.on('updateClient', (rooms) => {
-            console.log(rooms);
             this.setState({ rooms });
         });
 
@@ -83,4 +105,4 @@ function mapDispatchToProps(dispatch) {
     });
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);

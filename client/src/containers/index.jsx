@@ -12,6 +12,7 @@ class RootContainer extends Component {
     }
 
     componentDidMount() {
+        console.log('sas');
         this.props.getUser();
     }
 

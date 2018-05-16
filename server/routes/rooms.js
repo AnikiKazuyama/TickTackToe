@@ -1,81 +1,80 @@
 const models = require('../db/index');
 const express = require('express');
+
 const router = express.Router();
+
 const User = require('../RAM/User');
 const Room = require('../RAM/Room');
 
+const uuid = require('uuid/v4');
+
 module.exports = (function(io) { 
 
-    let rooms = {
-        1: new Room(),
-        2: new Room(), 
-        3: new Room(),
-        4: new Room(),
-        5: new Room()
-    }
+    let rooms = {}
 
-    const room = new Room();
-    
-    router.get('/enter', (req, res) => {
-        // if(req.isAuthenticated()) {
-        //     const user = new User(req.user.id, req.user.name);
-        //     res.json({status: room.enter(user) ? "success" : "error"});
-        //     io.sockets.emit('updateClient', room);
-        // } else 
-        //     res.status(403).json({status: "error"});
+    let players = {};
 
-        console.log(req.user.getRoomID());
+    io.on('connection', socket => {
+        socket.on('enterRoom', (id, callback) => {
+            if(socket.request.isAuthenticated() && (!players[socket.request.user.id] || rooms[id].isExist(socket.request.user.getPublicData())) && rooms[id] && (rooms[id].getPlayersCount() < 2 || rooms[id].isExist(socket.request.user.getPublicData()))) {
+                players[socket.request.user.id] = true;
+                rooms[id].enter(socket.request.user.getPublicData());
+                socket.request.user.enterRoom(id);
+                io.sockets.emit('updateClient', rooms);
+                io.sockets.emit('updateRoomClient', id, rooms[id]);
+                callback(true);
+            } else 
+                callback(false);
+        })
+
+        socket.on('leaveRoom', (id, callback) => {
+            if(socket.request.isAuthenticated() && rooms[id].isExist(socket.request.user)) {
+                console.log(players[socket.request.user.id]);
+                delete players[socket.request.user.id];
+                rooms[id].leave(socket.request.user.getPublicData());
+                if (rooms[id].getPlayersCount() == 0)
+                    delete rooms[id];
+                socket.request.user.leaveRoom();
+                io.sockets.emit('updateClient', rooms);
+                io.sockets.emit('updateRoomClient', id, rooms[id]);
+                callback();
+            } else 
+                callback();
+        })
+
+        socket.on('createRoom', (name, callback) => {
+            if(socket.request.isAuthenticated() && !players[socket.request.user.id]){
+                let roomId = null;
+
+                do {
+                    roomId = uuid().split('-').join('');
+                } while(rooms[roomId]);
+
+                rooms[roomId] = new Room(name);
+                rooms[roomId].enter(socket.request.user.getPublicData());
+
+                callback(roomId);
+
+                io.sockets.emit('updateClient', rooms);
+            }
+        });
+
+        socket.on('updateServer', () => {
+            io.sockets.emit('updateClient', rooms);
+        })
+
+        socket.on('getDataServer', () => {
+            socket.emit('getDataClient', rooms);
+        })
+
+        socket.on('getRoomDataServer', (id) => {
+            socket.emit('getRoomDataClient', rooms[id]);
+        })
+
+        socket.on('disconnect', () => {
+            console.log('user disconnected');
+        })
     });
 
-    router.get('/leave', (req, res) => {
-        if(req.isAuthenticated()) {
-            const user = new User(req.user.id, req.user.name);
-            res.json({status: room.leave(user) ? "success" : "error"});
-            io.sockets.emit('updateClient', room);
-        } else 
-            res.status(403).json({status: "error"});
-    });
-
-io.on('connection', socket => {
-
-    socket.on('enterRoom', (id, callback) => {
-        if(socket.request.isAuthenticated() && !socket.request.user.getRoomID() && rooms[id] && rooms[id].getPlayersCount() < 2) {
-            rooms[id].enter(socket.request.user.getPublicData());
-            socket.request.user.enterRoom(id);
-            io.sockets.emit('updateClient', rooms);
-            io.sockets.emit('updateRoomClient', id, rooms[id]);
-            callback(true);
-        } else 
-            callback(false);
-    })
-
-    socket.on('leaveRoom', (id, callback) => {
-        if(socket.request.isAuthenticated() && rooms[id]) {
-            rooms[id].leave(socket.request.user.getPublicData());
-            socket.request.user.leaveRoom();
-            io.sockets.emit('updateClient', rooms);
-            io.sockets.emit('updateRoomClient', id, rooms[id]);
-            callback();
-        } else 
-            callback();
-    })
-
-    socket.on('updateServer', () => {
-        io.sockets.emit('updateClient', rooms);
-    })
-
-    socket.on('getDataServer', () => {
-        socket.emit('getDataClient', rooms);
-    })
-
-    socket.on('getRoomDataServer', (id) => {
-        socket.emit('getRoomDataClient', rooms[id]);
-    })
-
-    socket.on('disconnect', () => {
-        console.log('user disconnected');
-    })
-});
-
-    return router; 
+        return router; 
 });
