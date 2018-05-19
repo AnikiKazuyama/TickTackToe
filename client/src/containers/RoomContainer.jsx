@@ -2,7 +2,6 @@ import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
 
 import Room from '../components/Room';
-import Field from '../components/Field';
 
 import FormValidator from '../utils/FormValidator';
 
@@ -35,13 +34,9 @@ class RoomContainer extends Component {
     }
 
     render() {
-        return (
-            <Fragment>
-                <Room onClickLeave = { this.leave }
-                     room = { this.state.room }
+        return (<Room onClickLeave = { this.leave }
+                      room = { this.state.room }
                             { ...this.props } />
-                <Field { ...this.props } />
-            </Fragment>
         );
     }
 
@@ -69,6 +64,7 @@ class RoomContainer extends Component {
     }
 
     leave = () => {
+        console.log("123");
         this.props.socket.emit('leaveRoom', this.roomID, () => {
             this.props.history.push('/profile');
         });
@@ -78,6 +74,7 @@ class RoomContainer extends Component {
 function mapStateToProps(state) {
     return {
         socket: state.user.socket, 
+        username: state.user.name,
         isExistSession: state.user.isExistSession
     }
 }

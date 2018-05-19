@@ -8,6 +8,9 @@ $wrapper-auth-width: 450px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -49%);
+}
+
+.wrapper-auth form {
     padding: 30px 50px;
     opacity: 1;
     width: $wrapper-auth-width;

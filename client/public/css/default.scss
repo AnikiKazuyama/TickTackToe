@@ -80,6 +80,11 @@ input:focus:-moz-placeholder { color: transparent; }
 input:focus:-ms-input-placeholder { color: transparent; }
 input:focus::placeholder { color: transparent; }
 
+input::-webkit-input-placeholder { color: #ffffff; }
+input:-moz-placeholder { color: #ffffff; }
+input:-ms-input-placeholder { color: #ffffff; }
+input::placeholder { color: #ffffff; }
+
 button::-moz-focus-inner { border: none; padding: 0; }
 
 input::-ms-clear {

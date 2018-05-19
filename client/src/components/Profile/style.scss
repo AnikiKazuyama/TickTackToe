@@ -15,13 +15,13 @@
   box-sizing: border-box;
 }
 
-.circle-button.exit {
+.circle-button.exit.profile-button {
   position: absolute;
   right: 30px;
   top: -25px;
 }
 
-.circle-button.settings {
+.circle-button.settings.profile-button {
   position: absolute;
   left: 30px;
   top: -25px;
@@ -71,7 +71,37 @@
 .rooms {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
+
+.rooms .room-create {
+  display: flex;
+  width: 100%;
+  margin-bottom: 10px;
+  border-bottom: 1px dotted #686bae;
+}
+
+.rooms .room-create input {
+  flex-grow: 1;
+  height: 40px;
+  padding: 0 10px 0 20px;
+  font-weight: 100;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+  background-color: transparent;
+  color: #9ee0ff;
+  text-align: center;
+}
+
+.rooms .room-create input:focus::-webkit-input-placeholder { color: transparent; }
+.rooms .room-create input:focus:-moz-placeholder { color: transparent; }
+.rooms .room-create input:focus:-ms-input-placeholder { color: transparent; }
+.rooms .room-create input:focus::placeholder { color: transparent; }
+
+.rooms .room-create input::-webkit-input-placeholder { color: #9ee0ff; }
+.rooms .room-create input:-moz-placeholder { color: #9ee0ff; }
+.rooms .room-create input:-ms-input-placeholder { color: #9ee0ff; }
+.rooms .room-create input::placeholder { color: #9ee0ff; }
 
 .rooms .room-item {
   position: relative;
@@ -150,6 +180,7 @@
   background: #ecf0f1 url(../../../public/images/default-profile.svg) no-repeat center;
   background-size: 100%;
   cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
 .profile > header .info {

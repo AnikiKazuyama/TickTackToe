@@ -35,7 +35,6 @@ class ProfileContainer extends Component {
     }
 
     componentWillUnmount() {
-        console.log("123");
         this.removeListeners();
     }
     

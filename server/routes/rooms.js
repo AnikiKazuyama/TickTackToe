@@ -38,8 +38,8 @@ module.exports = (function(io) {
                 socket.request.user.leaveRoom();
                 io.sockets.emit('updateClient', rooms);
                 socket.broadcast.to(id).emit('updateRoomClient', rooms[id]);
-                socket.leave(socket.room);
                 callback();
+                socket.leave(socket.room);
             } else 
                 callback();
         })

@@ -6,14 +6,16 @@ import styles from './style.scss';
 
 import ApiServices from '../../utils/ApiService';
 
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+
 class Profile extends Component {
     
     render() {
         return(
             <section className="wrapper-profile">
                 <div className="profile">
-                    <button title="Exit" className="circle-button exit" onClick={ this.props.exit } />
-                    <button title="Settings" className="circle-button settings" />
+                    <button title="Exit" className="circle-button exit profile-button" onClick={ this.props.exit } />
+                    <button title="Settings" className="circle-button settings profile-button" />
                     <header>
                         <div className="avatar"></div>
                         <div className="info">
@@ -27,12 +29,10 @@ class Profile extends Component {
                         </nav>
                     </header>
                     <main className="rooms">
-                        { this.props.rooms ? this.renderRooms() : null }
-                        <form onSubmit = { this.props.create }>
-                            <input type="text" onChange = { this.props.handleChange }/>
-                            <button type="submit" >Create room</button>
+                        <form className="room-create" onSubmit = { this.props.create }>
+                            <input type="text" onChange = { this.props.handleChange } placeholder="CREATE YOUR ROOM"/>
                         </form>
-                        
+                        { this.props.rooms ? this.renderRooms() : null }
                     </main>
                 </div>
             </section>
