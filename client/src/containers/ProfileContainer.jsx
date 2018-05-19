@@ -33,6 +33,11 @@ class ProfileContainer extends Component {
         if(!nextProps.isExistSession) 
              this.props.history.push('/auth');
     }
+
+    componentWillUnmount() {
+        console.log("123");
+        this.removeListeners();
+    }
     
     render() {
         return <Profile { ...this.props } 
@@ -40,6 +45,30 @@ class ProfileContainer extends Component {
                         rooms        = { this.state.rooms }  
                         create       = { this.create } 
                         handleChange = { this.handleChange }/>
+    }
+
+    initSocket = () => {
+        if (!this.props.socket)
+        return;
+
+        this.props.socket.on('getDataClient', (rooms) => {
+            this.setState({ rooms });
+        });
+
+        this.props.socket.on('updateClient', (rooms) => {
+            this.setState({ rooms });
+        });
+
+        this.props.socket.emit('getDataServer');
+        
+    }
+
+    removeListeners() {
+        if (!this.props.socket)
+            return;
+
+        this.props.socket.removeAllListeners('getDataClient');
+        this.props.socket.removeAllListeners('updateClient');
     }
 
     handleChange = (e) => {
@@ -50,50 +79,28 @@ class ProfileContainer extends Component {
     create = (e) => {
         e.preventDefault();
 
-        this.socket.emit('createRoom', this.roomName, (name) => {
+        this.props.socket.emit('createRoom', this.roomName, (name) => {
             this.props.history.push(`/room/${ name }`);
         });
     }
 
     enter = (e) => {
-        // ApiServices.enterRoom().then((response) => {
-        //     if (response.status === 'success')
-        //         this.props.history.push('/room');
-        // })
-
         const id = e.target.dataset.id;
 
-        this.socket.emit('enterRoom', id, (status) => {
+        this.props.socket.emit('enterRoom', id, (status) => {
             if (status) {
                 this.props.history.push(`/room/${ id }`);
-                this.socket.disconnect();
             } else 
                 console.log('соси хуй, что то пошшло не так');
         });
-    }
-
-    initSocket = () => {
-     
-        this.socket = io.connect('http://localhost:3000');
-
-        this.socket.on('getDataClient', (rooms) => {
-            console.log(rooms);
-            this.setState({ rooms });
-        });
-
-        this.socket.on('updateClient', (rooms) => {
-            this.setState({ rooms });
-        });
-
-        this.socket.emit('getDataServer');
-        
     }
 }
 
 function mapStateToProps(state) {
     return ({
         isExistSession: state.user.isExistSession,
-        username: state.user.name
+        username: state.user.name, 
+        socket: state.user.socket
     });
 }
 

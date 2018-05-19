@@ -1,0 +1,28 @@
+.field-container {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  height: 600px;
+}
+
+.field-row,
+.field-col {
+  display: flex;
+  flex-grow: 1;
+}
+
+.field-col {
+  border: 1px solid black;
+  box-sizing: border-box;
+  background-size: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.field-col.o {
+  background-image: url(../../../public/images/o.svg);
+}
+
+.field-col.x {
+  background-image: url(../../../public/images/x.svg);
+}

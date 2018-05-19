@@ -12,11 +12,9 @@ import "../../public/css/widgets.scss";
 import "../../public/css/default.scss";
 
 export default class Root extends React.Component {
-    
-    
+     
     render() {
         const { location } = this.props;
-        
         return(
             <Switch>
                 <Route path = '/auth' component = { AuthContainer }/>

@@ -17,6 +17,7 @@ const initState = {
         getCurrentLoading: false,
         signInLoading: false,
     },
+    socket: null,
     isLoggedIn: null,
     isExistSession: null
 }
@@ -42,7 +43,8 @@ export default function user(state = initState, action) {
                 loaders: {
                     getCurrentLoading: false,
                     signInLoading: false,
-                }
+                }, 
+                socket: action.socket
             });
 
         case(LOGIN_FAILED): 
@@ -86,7 +88,8 @@ export default function user(state = initState, action) {
                 loaders: {
                     getCurrentLoading: false,
                     signInLoading: false,
-                }
+                },
+                socket: action.socket
             });
 
         case(GET_USER_FAILED):

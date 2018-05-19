@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
+import { connect } from 'react-redux';
 
 import Room from '../components/Room';
+import Field from '../components/Field';
 
 import FormValidator from '../utils/FormValidator';
 
 import ApiService from '../utils/ApiService';
-
-import io from 'socket.io-client';
 
 class RoomContainer extends Component {
 
@@ -19,37 +19,67 @@ class RoomContainer extends Component {
     }
 
     componentDidMount() {
-        this.socket = io.connect('http://localhost:3000');
+        if(!this.props.isExistSession) 
+            this.props.history.push('/auth');
 
-        this.socket.on('updateRoomClient', (id, room) => {
-            if (id == this.roomID)
-                this.setState({ room });
-        });
+        this.initSocket();
+    }
 
-        this.socket.on('getRoomDataClient', (room) => {
-            this.setState({ room });
-        });
+    componentWillReceiveProps(nextProps) {
+        if(!nextProps.isExistSession) 
+             this.props.history.push('/auth');
+    }
 
-        this.socket.emit('getRoomDataServer', this.roomID);
+    componentWillUnmount() {
+        this.removeListeners();
     }
 
     render() {
-        console.log(this.state.room);
-        return <Room onClickLeave = { this.leave }
+        return (
+            <Fragment>
+                <Room onClickLeave = { this.leave }
                      room = { this.state.room }
-                            { ...this.props } />;
+                            { ...this.props } />
+                <Field { ...this.props } />
+            </Fragment>
+        );
+    }
+
+    initSocket = () => {
+        if (!this.props.socket)
+            return;
+
+            this.props.socket.on('updateRoomClient', (room) => {
+            this.setState({ room });
+        });
+
+        this.props.socket.on('getRoomDataClient', (room) => {
+            this.setState({ room });
+        });
+
+        this.props.socket.emit('getRoomDataServer', this.roomID);
+    }
+
+    removeListeners() {
+        if (!this.props.socket)
+            return;
+        
+        this.props.socket.removeAllListeners('updateRoomClient');
+        this.props.socket.removeAllListeners('getRoomDataClient');
     }
 
     leave = () => {
-        // ApiService.leaveRoom().then(() => {
-        //     this.props.history.push('/profile');
-        //     this.socket.disconnect();
-        // } );
-        this.socket.emit('leaveRoom', this.roomID, () => {
+        this.props.socket.emit('leaveRoom', this.roomID, () => {
             this.props.history.push('/profile');
-            this.socket.disconnect();
         });
     }
 }
 
-export default RoomContainer;
+function mapStateToProps(state) {
+    return {
+        socket: state.user.socket, 
+        isExistSession: state.user.isExistSession
+    }
+}
+
+export default connect(mapStateToProps, null)(RoomContainer);
