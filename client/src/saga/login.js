@@ -2,6 +2,10 @@ import { call, put, select  } from 'redux-saga/effects';
 
 import { login, loginSuccess, loginFailed } from '../actions/userActions';
 
+import { URL } from '../constants/Api';
+
+import io from 'socket.io-client';
+
 import ApiService from '../utils/ApiService';
 
 export default function* loginSaga(action) {
@@ -10,7 +14,7 @@ export default function* loginSaga(action) {
 
         yield put(response.status === 'success' 
         ? 
-        loginSuccess(response.user)
+        loginSuccess(response.user, io.connect(URL))
         :
         loginFailed());
     } catch(e) {

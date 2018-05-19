@@ -17,10 +17,11 @@ export function login( email, password ){
     }
 }
 
-export function loginSuccess(user) {
+export function loginSuccess(user, socket) {
     return {
         type: LOGIN_SUCCESS,
-        ...user
+        ...user, 
+        socket
     }
 }
 
@@ -36,10 +37,11 @@ export function getUser(){
     }
 }
 
-export function getUserSuccess(user) {
+export function getUserSuccess(user, socket) {
     return {
         type: GET_USER_SUCCESS,
-        ...user
+        ...user, 
+        socket
     }
 }
 

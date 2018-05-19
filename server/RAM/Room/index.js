@@ -1,7 +1,10 @@
+const TicTacToe = require('../TicTacToe');
+
 class Room {
     constructor(name) {
         this.name = name;
-        this.players = [];        
+        this.players = [];
+        this.game = new TicTacToe();
     }
 
     getName() {

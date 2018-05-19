@@ -15,13 +15,15 @@ module.exports = (function(io) {
     let players = {};
 
     io.on('connection', socket => {
+        console.log('user connected to соскет');
         socket.on('enterRoom', (id, callback) => {
             if(socket.request.isAuthenticated() && (!players[socket.request.user.id] || rooms[id].isExist(socket.request.user.getPublicData())) && rooms[id] && (rooms[id].getPlayersCount() < 2 || rooms[id].isExist(socket.request.user.getPublicData()))) {
                 players[socket.request.user.id] = true;
                 rooms[id].enter(socket.request.user.getPublicData());
                 socket.request.user.enterRoom(id);
                 io.sockets.emit('updateClient', rooms);
-                io.sockets.emit('updateRoomClient', id, rooms[id]);
+                socket.broadcast.to(id).emit('updateRoomClient', rooms[id]);
+                socket.join(id);
                 callback(true);
             } else 
                 callback(false);
@@ -29,14 +31,14 @@ module.exports = (function(io) {
 
         socket.on('leaveRoom', (id, callback) => {
             if(socket.request.isAuthenticated() && rooms[id].isExist(socket.request.user)) {
-                console.log(players[socket.request.user.id]);
                 delete players[socket.request.user.id];
                 rooms[id].leave(socket.request.user.getPublicData());
                 if (rooms[id].getPlayersCount() == 0)
                     delete rooms[id];
                 socket.request.user.leaveRoom();
                 io.sockets.emit('updateClient', rooms);
-                io.sockets.emit('updateRoomClient', id, rooms[id]);
+                socket.broadcast.to(id).emit('updateRoomClient', rooms[id]);
+                socket.leave(socket.room);
                 callback();
             } else 
                 callback();
@@ -52,6 +54,9 @@ module.exports = (function(io) {
 
                 rooms[roomId] = new Room(name);
                 rooms[roomId].enter(socket.request.user.getPublicData());
+                socket.join(roomId);
+
+                players[socket.request.user.id] = true;
 
                 callback(roomId);
 
