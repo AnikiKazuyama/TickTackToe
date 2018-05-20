@@ -15,6 +15,8 @@ class RoomContainer extends Component {
         this.state = {
             room: null
         }
+        this.selfId = -1;
+        this.opponentId = -1;
     }
 
     componentDidMount() {
@@ -34,7 +36,20 @@ class RoomContainer extends Component {
     }
 
     render() {
-        return (<Room onClickLeave = { this.leave }
+        if (this.state.room) {
+            this.state.room.winner ? alert(this.state.room.players[this.state.room.winner].name + " Winner!") : null;
+            this.state.room.players.map((player, index) => {
+                if (player.name === this.props.username)
+                    this.selfId = index;
+                else 
+                    this.opponentId = index;
+            });
+        }
+
+        return (<Room selfId = { this.selfId }
+                      opponentId = { this.opponentId }
+                      handleFieldClick = { this.handleFieldClick }
+                      onClickLeave = { this.leave }
                       room = { this.state.room }
                             { ...this.props } />
         );
@@ -64,10 +79,14 @@ class RoomContainer extends Component {
     }
 
     leave = () => {
-        console.log("123");
         this.props.socket.emit('leaveRoom', this.roomID, () => {
             this.props.history.push('/profile');
         });
+    }
+
+    handleFieldClick = (id) => {
+        if (this.state.room.isStarted && this.state.room.whoseTurn == this.selfId)
+            this.props.socket.emit('turn', id);
     }
 }
 

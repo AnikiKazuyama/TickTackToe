@@ -1,6 +1,9 @@
 class TicTacToe {
     constructor() {
         this.field = Array(9).fill(null);
+        // this.field = [true, false, false, 
+        //               null, null, null, 
+        //               null, null, true]
         this.template = [
             [1,2,3],
             [4,5,6],
@@ -14,13 +17,17 @@ class TicTacToe {
     }
 
     XTurn(id){
-        this.fields[id] = false;
-        return this.isWinner(false)
+        this.field[id] = false;
+        return this.isWinner(false);
     }
 
     OTurn(id){
-        this.fields[id] = true;
-        return this.isWinner(true)
+        this.field[id] = true;
+        return this.isWinner(true);
+    }
+
+    getField() {
+        return this.field;
     }
 
     isWinner(who) {

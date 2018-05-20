@@ -5,6 +5,9 @@ class Room {
         this.name = name;
         this.players = [];
         this.game = new TicTacToe();
+        this.isStarted = false;
+        this.whoseTurn = null;
+        this.winner = null;
     }
 
     getName() {
@@ -17,12 +20,15 @@ class Room {
 
     enter(user) {
         if (this.isExist(user)) {
-            console.log('Уже существует, пропускаем')
+            console.log('Уже существует, пропускаем');
             return true;
         }
 
-        if (this.players.length < 2) 
-                this.addPlayer(user);
+        if (this.players.length < 2) {
+            this.addPlayer(user);
+            if (this.players.length == 2)
+                this.startGame();
+        }
         else 
             return false;
 
@@ -42,6 +48,12 @@ class Room {
         this.players.push(user);
     }
 
+    startGame() {
+        console.log("Game is started");
+        this.isStarted = true;
+        this.whoseTurn = 0;
+    }
+
     isExist(user) {
         for (let i = 0; i < this.players.length; i++) {
             if (+this.players[i].id == +user.id)
@@ -57,6 +69,23 @@ class Room {
         }
         return -1;
     }
+
+    turn(who, id) {
+        console.log(who.name + " called turn");
+        if (this.isExist(who) && this.isStarted && this.whoseTurn == this.getUserIndex(who)) {
+            const result = this.getUserIndex(who) == 1 ? this.game.XTurn(id) : this.game.OTurn(id);
+            if (result) {
+                console.log(who.name + " - winner");
+                this.winner = this.getUserIndex(who);
+                this.isStarted = false;
+                this.whoseTurn = null;
+            } else
+                this.whoseTurn = this.whoseTurn == 0 ? 1 : 0;
+            return true;
+        } else
+            return false;
+    }
+
 
 }
 

@@ -24,6 +24,7 @@ module.exports = (function(io) {
                 io.sockets.emit('updateClient', rooms);
                 socket.broadcast.to(id).emit('updateRoomClient', rooms[id]);
                 socket.join(id);
+                socket.room = id;
                 callback(true);
             } else 
                 callback(false);
@@ -40,6 +41,7 @@ module.exports = (function(io) {
                 socket.broadcast.to(id).emit('updateRoomClient', rooms[id]);
                 callback();
                 socket.leave(socket.room);
+                delete socket.room;
             } else 
                 callback();
         })
@@ -55,6 +57,7 @@ module.exports = (function(io) {
                 rooms[roomId] = new Room(name);
                 rooms[roomId].enter(socket.request.user.getPublicData());
                 socket.join(roomId);
+                socket.room = roomId;
 
                 players[socket.request.user.id] = true;
 
@@ -62,6 +65,13 @@ module.exports = (function(io) {
 
                 io.sockets.emit('updateClient', rooms);
             }
+        });
+
+        socket.on('turn', (id) => {
+            if (socket.request.isAuthenticated() && 
+                rooms[socket.room].isExist(socket.request.user) && 
+                rooms[socket.room].turn(socket.request.user.getPublicData(), id))
+                    io.sockets.in(socket.room).emit('updateRoomClient', rooms[socket.room]);
         });
 
         socket.on('updateServer', () => {
